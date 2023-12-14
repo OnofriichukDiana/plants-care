@@ -7,6 +7,7 @@ import { PostsModule } from './posts/posts.module';
 import { MediaModule } from './media/media.module';
 import { PostFilesModule } from './post-files/post-files.module';
 import { UserModule } from './user/user.module';
+import { PostLikesModule } from './post-likes/post-likes.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { UserModule } from './user/user.module';
         MediaModule,
         PostsModule,
         PostFilesModule,
+        PostLikesModule,
         ConfigModule.forRoot({
             isGlobal: true,
             load: [dbConf],

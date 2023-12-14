@@ -5,6 +5,16 @@ export { authApi } from "./authApi";
 
 export const postsApi = crud("posts");
 export const postFilesApi = crud("post-files");
+export const postLikesApi = crud("post-likes", {
+  isLiked: (postId: number) =>
+    api(
+      `/post-likes/${postId}/is-liked`,
+      {
+        method: "GET",
+      },
+      (response: boolean) => response
+    ),
+});
 
 // export const accountantsApi = crud('accountants', actions.accountantsActions, {
 //   getStatistic: (id) =>

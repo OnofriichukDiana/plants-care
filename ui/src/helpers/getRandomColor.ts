@@ -1,54 +1,24 @@
 export const hexColors = [
-  "#E57373",
-  "#F06292",
-  "#BA68C8",
-  "#9575CD",
-  "#7986CB",
-  "#64B5F6",
-  "#4FC3F7",
-  "#4DD0E1",
-  "#4DB6AC",
-  "#81C784",
-  "#AED581",
-  "#DCE775",
-  "#FFF176",
-  "#FFD54F",
-  "#FFB74D",
-  "#FF8A65",
-  "#A1887F",
-  "#E0E0E0",
-  "#90A4AE",
-  "#F48FB1",
-  "#CE93D8",
-  "#B39DDB",
-  "#9FA8DA",
-  "#90CAF9",
-  "#81D4FA",
-  "#80DEEA",
-  "#80CBC4",
-  "#A5D6A7",
-  "#C5E1A5",
-  "#E6EE9C",
-  "#FFF59D",
-  "#FFE082",
-  "#FFCC80",
-  "#FFAB91",
-  "#BCAAA4",
-  "#EEEEEE",
-  "#B0BEC5",
-  "#FF80AB",
-  "#EA80FC",
-  "#8C9EFF",
-  "#82B1FF",
-  "#80D8FF",
-  "#84FFFF",
-  "#A7FFEB",
-  "#B9F6CA",
-  "#CCFF90",
-  "#F4FF81",
-  "#FFFF8D",
-  "#FFD180",
-  "#FF9E80",
+  "#2c3e50", // Midnight Blue
+  "#34495e", // Wet Asphalt
+  "#7f8c8d", // Concrete
+  "#95a5a6", // Alizarin
+  "#34495e", // Midnight Blue
+  "#2c3e50", // Wet Asphalt
+  "#555555", // Concrete
+  "#666666", // Alizarin
+  "#1f2c39", // Dark Charcoal
+  "#262626", // Graphite
+  "#1a1a1a", // Black
+  "#2d2d2d", // Dark Gray
+  "#393939", // Gray
+  "#4d4d4d", // Dim Gray
+  "#5c5c5c", // Gray
+  "#474747", // Dim Gray
+  "#3a3a3a", // Davy's Gray
+  "#2e2e2e", // Charcoal
+  "#1f1f1f", // Jet Black
+  "#0d0d0d", // Black
 ];
 
 export function getRandomColor() {

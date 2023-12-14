@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import getRandomAvatarIcon from "@/helpers/avatarIcons";
+import Link from "next/link";
 
 interface IProps {
   user: any;
@@ -12,6 +13,7 @@ interface IProps {
 const Avatar: React.FC<IProps> = ({ user, size = 3 }) => {
   let background = user?.avatarBackground || "#2f6a48";
   let icon = user?.icon || getRandomAvatarIcon();
+  const [isHovered, setIsHovered] = useState(false);
 
   const avatarStyle = {
     background,
@@ -19,13 +21,29 @@ const Avatar: React.FC<IProps> = ({ user, size = 3 }) => {
     height: `${size}rem`,
   };
   return (
-    <div className="avatar" style={avatarStyle}>
-      <Image
-        src={`/images/${icon}.svg`}
-        alt="icon"
-        width={size * 9}
-        height={size * 9}
-      />
+    <div className="relative">
+      <Link
+        href={`/${user?.id}`}
+        className="avatar"
+        style={avatarStyle}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <Image
+          src={`/images/${icon}.svg`}
+          alt="icon"
+          width={size * 9}
+          height={size * 9}
+        />
+      </Link>
+      {isHovered && (
+        <p
+          className="subtitle1 absolute right-7 w-100 p-2 bg-white rounded-md border-2"
+          style={{ width: "7vw" }}
+        >
+          {user?.name}
+        </p>
+      )}
     </div>
   );
 };

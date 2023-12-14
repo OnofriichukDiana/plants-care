@@ -27,11 +27,7 @@ type ErrorType = {
   tags?: string | null;
 };
 
-interface IProps {
-  afterSave?: () => void;
-}
-
-function PostInput({ afterSave }: IProps) {
+function PostInput() {
   const router = useRouter();
   const { notification, showNotification } = useNotification();
 
@@ -100,7 +96,7 @@ function PostInput({ afterSave }: IProps) {
           setPostFiles([]);
           setPost(defaultPostData);
 
-          // afterSave();
+          router.refresh();
         }
         setIsLoading(false);
       }

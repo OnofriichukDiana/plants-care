@@ -22,7 +22,6 @@ import { RequestType } from 'src/types';
 import { AuthGuard } from '../auth/auth.guard';
 import { PostsService } from './posts.service';
 import { GetPostsDto } from './dto/get-posts-query.dto';
-import { transform } from 'src/helpers/class-transformer';
 
 @Controller('posts')
 @ApiTags('Posts')

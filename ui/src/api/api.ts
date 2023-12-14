@@ -14,7 +14,7 @@ export const api = async (url: string, props: any, func: any) => {
   if (authHeader) {
     props["headers"]["Authorization"] = "Bearer " + authHeader;
   }
-  props.next = { revalidate: 36 };
+  props.cache = "no-store";
 
   try {
     const response = await fetch(host + url, props);

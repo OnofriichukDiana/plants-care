@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-export const crud = (name: string, requests = [], host?: string) => {
+export const crud = (name: string, requests: any = {}) => {
   return {
     // getOne: (id, relations = []) =>
     //   api(

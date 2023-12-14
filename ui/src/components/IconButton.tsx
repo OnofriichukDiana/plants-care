@@ -4,10 +4,16 @@ import { useState } from "react";
 
 interface IProps {
   signature: string;
-  iconName: string;
+  icon?: any;
+  iconName?: string;
   onClick?: () => void;
 }
-const IconButton: React.FC<IProps> = ({ onClick, iconName, signature }) => {
+const IconButton: React.FC<IProps> = ({
+  onClick,
+  iconName,
+  icon: Icon,
+  signature,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -19,7 +25,10 @@ const IconButton: React.FC<IProps> = ({ onClick, iconName, signature }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Image src={iconName} alt={signature} width={30} height={30} />
+        {iconName && (
+          <Image src={iconName} alt={signature} width={30} height={30} />
+        )}
+        {Icon && <Icon style={{ color: "grey" }} size={23} />}
       </button>
       {isHovered && (
         <p

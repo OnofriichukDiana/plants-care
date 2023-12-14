@@ -4,7 +4,6 @@ import PostInput from "@/components/PostInput";
 
 const Page = async () => {
   const res = await postsApi.getList({});
-
   return (
     <div className="dc min-h-screen">
       <div className="main-card">
