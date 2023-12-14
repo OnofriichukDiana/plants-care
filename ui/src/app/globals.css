@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #2f6a48;
+  --secondary-color: #022510;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: rgb(var(--foreground-rgb));
+  background-image: linear-gradient(
+    180deg,
+    rgba(0, 112, 23, 1) 0%,
+    rgba(246, 246, 246, 1) 100%
+  );
+  position: relative;
+}
+
+input {
+  border-radius: 10px;
+  padding: 6px;
+  background: #ffffff;
+  border: 1px solid var(--secondary-color);
+  outline: none;
+  box-shadow: 2px 4px 30px 0px #00452614;
+}
+
+textarea {
+  border-radius: 10px;
+  border: 2px solid #00000014;
+  box-shadow: 2px 4px 30px 0px #00452614;
+  padding: 1rem;
+  resize: none;
+  outline: none;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  border-radius: 10px;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.icon-button {
+  color: var(--secondary-color);
+  padding: 0;
+  background-color: transparent;
+}
+p {
+  color: var(--primary-color);
+}
+.h1 {
+  font-weight: 900;
+  font-size: 2.5rem;
+  line-height: 1, 5;
+}
+.h4 {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 0.8;
+}
+.body1 {
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.subtitle1 {
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #000000;
+}
+
+.subtitle2 {
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #000000;
+}
+
+.card {
+  box-shadow: 2px 4px 30px 0px #00064514;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+.main-card {
+  margin: 0 auto;
+  margin-top: 10rem;
+  box-shadow: 2px 4px 30px 0px #00064514;
+  background-color: #ffffff;
+  width: 80%;
+  min-height: 87vh;
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.full-width {
+  width: 100%;
+}
+.link {
+  color: var(--primary-color);
+}
+.link:hover {
+  color: var(--secondary-color);
+}
+.avatar {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

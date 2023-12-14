@@ -1,0 +1,63 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as AWS from 'aws-sdk';
+import { ConfigService } from '@nestjs/config';
+import { Media } from 'src/entities/media/media.entity';
+import { MediaType } from './media-type.enum';
+
+@Injectable()
+export class MediaService {
+    private s3;
+
+    constructor(
+        @InjectRepository(Media)
+        private readonly mediaRepository: Repository<Media>,
+        private readonly configService: ConfigService,
+    ) {
+        this.s3 = new AWS.S3({
+            accessKeyId: process.env.B2_APPLICATION_KEY_ID,
+            secretAccessKey: process.env.B2_APPLICATION_KEY,
+            endpoint: process.env.B2_ENDPOINT,
+        });
+    }
+
+    async upload(
+        data: Express.Multer.File,
+        mediaType: MediaType,
+    ): Promise<number> {
+        const Bucket = this.configService.get<string>('B2_BUCKET_NAME');
+
+        const path = `${mediaType}/${data.originalname}`;
+        const res = await this.s3
+            .upload({
+                Bucket,
+                Key: path,
+                Body: data.buffer,
+            })
+            .promise();
+
+        const media = await this.mediaRepository.save({
+            path: res.Location,
+            name: data.originalname,
+            size: data.size,
+            mime: data.mimetype,
+        });
+        return media.id;
+    }
+
+    async remove(fileName: string): Promise<void> {
+        const Bucket = this.configService.get<string>('B2_BUCKET_NAME');
+        await this.s3.deleteObject({ Bucket, Key: fileName }).promise();
+        await this.removeMediaRecord(fileName);
+    }
+
+    private async removeMediaRecord(fileName: string): Promise<void> {
+        const media = await this.mediaRepository.findOne({
+            where: { name: fileName },
+        });
+        if (media) {
+            await this.mediaRepository.remove(media);
+        }
+    }
+}

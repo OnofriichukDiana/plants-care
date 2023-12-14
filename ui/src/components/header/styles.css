@@ -1,0 +1,26 @@
+.active {
+  color: var(--secondary-color);
+  position: relative;
+}
+.active::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--secondary-color);
+}
+.header-container {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 9vh;
+  min-height: 80px;
+  background-color: #fcfffc;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
