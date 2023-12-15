@@ -28,6 +28,7 @@ body {
     rgba(0, 112, 23, 1) 0%,
     rgba(246, 246, 246, 1) 100%
   );
+  background-image: url("../../public/images/bg.jpg");
   position: relative;
 }
 
@@ -74,25 +75,24 @@ p {
 }
 .h4 {
   font-weight: 500;
-  font-size: 20px;
+  font-size: 1.5rem;
   line-height: 0.8;
 }
 .body1 {
   font-weight: 400;
-  font-size: 17px;
+  font-size: 1.15rem;
   line-height: 1.5;
 }
 
 .subtitle1 {
   font-weight: 300;
-  font-size: 15px;
+  font-size: 0.95rem;
   line-height: 1.5;
-  color: #000000;
 }
 
 .subtitle2 {
   font-weight: 300;
-  font-size: 13px;
+  font-size: 0.8rem;
   line-height: 1.5;
 }
 
@@ -126,4 +126,19 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@keyframes scale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale {
+  animation: scale 0.5s ease-in-out;
 }

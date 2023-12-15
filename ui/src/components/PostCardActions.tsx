@@ -8,18 +8,22 @@ import { CiSquarePlus } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { postLikesApi } from "@/api";
+import ImageGallery from "./imageGallery";
+import { useAuthStore } from "@/api/authStore";
 
 interface IProps {
   post: PostItemType;
 }
 
 function PostCardActions({ post }: IProps) {
+  const { me } = useAuthStore();
   const [isLiked, setIsLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(post?.countLikes);
+  const [isImageGalleryOpen, setIsImageGalleryOpen] = useState(false);
   const router = useRouter();
 
   const isPostLiked = async () => {
-    if (!!post?.id) {
+    if (!!post?.id && !!me) {
       const _isLiked = await postLikesApi.isLiked(post.id);
       setIsLiked(_isLiked);
     }
@@ -82,7 +86,12 @@ function PostCardActions({ post }: IProps) {
   );
 
   return (
-    <div className="flex justify-between mt-2 bg-slate-50 p-3">
+    <div className="h-10 md:h-20 flex justify-between items-center mt-2 bg-slate-50 p-3">
+      <ImageGallery
+        isOpen={isImageGalleryOpen}
+        onClose={() => setIsImageGalleryOpen(false)}
+        images={post?.postFiles}
+      />
       <div className="flex">
         <IconButton
           onClick={onLike}
@@ -94,7 +103,7 @@ function PostCardActions({ post }: IProps) {
 
       {post?.postFiles?.length > 1 && (
         <IconButton
-          onClick={() => router.push(`/`)}
+          onClick={() => setIsImageGalleryOpen(true)}
           icon={galleryPreview}
           signature="View"
         />

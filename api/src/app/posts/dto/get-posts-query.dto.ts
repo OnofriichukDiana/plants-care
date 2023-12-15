@@ -16,8 +16,4 @@ export class GetPostsDto {
     @IsOptional()
     @IsIn(['ASC', 'DESC'])
     sortOrder: 'ASC' | 'DESC';
-
-    @IsOptional()
-    @IsArray()
-    relations: string[];
 }

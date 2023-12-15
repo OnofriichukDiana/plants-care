@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePostsDto } from './dto/create-post.dto';
@@ -18,25 +18,12 @@ export class PostsService {
         limit = '25',
         sortBy = 'createdAt',
         sortOrder: 'ASC' | 'DESC' = 'DESC',
-        relations = null,
     ) {
         const qb = this.postsRepository
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.user', 'user')
             .leftJoinAndSelect('post.postFiles', 'postFiles')
             .leftJoinAndSelect('postFiles.media', 'media');
-
-        // if (relations) {
-        //     relations.forEach((relation) => {
-        //         const relationChain = relation.split('.'); // Split the relation chain
-        //         let joinPath = 'post';
-
-        //         relationChain.forEach((subRelation) => {
-        //             joinPath += `.${subRelation}`;
-        //             qb.leftJoinAndSelect(joinPath, subRelation);
-        //         });
-        //     });
-        // }
 
         let currentPage = +page;
         const totalItems = await qb.getCount();
@@ -66,6 +53,27 @@ export class PostsService {
         };
 
         return result;
+    }
+
+    async findOne(id: number) {
+        const post = await this.postsRepository
+            .createQueryBuilder('post')
+            .where('post.id = :id', { id })
+            .leftJoinAndSelect('post.user', 'user')
+            .leftJoinAndSelect('post.postFiles', 'postFiles')
+            .leftJoinAndSelect('postFiles.media', 'media')
+            .leftJoinAndSelect('post.postLikes', 'likes')
+            .leftJoinAndSelect('likes.auth', 'likeAuth')
+            .leftJoinAndSelect('post.postComments', 'comment')
+            .leftJoinAndSelect('comment.commentFiles', 'commentFiles')
+            .leftJoinAndSelect('comment.auth', 'commentAuth')
+            .getOne();
+
+        if (!post) throw new NotFoundException();
+
+        console.log(post);
+
+        return transform(Posts_Response, post);
     }
 
     async create(createPostsDto: CreatePostsDto, userId: number) {

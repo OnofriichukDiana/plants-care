@@ -8,6 +8,7 @@ import {
     Req,
     UseGuards,
     Query,
+    Param,
 } from '@nestjs/common';
 import {
     ApiBearerAuth,
@@ -55,10 +56,6 @@ export class PostsController {
         name: 'sortOrder',
         enum: ['ASC', 'DESC'],
     })
-    @ApiQuery({
-        required: false,
-        name: 'relations',
-    })
     @HttpCode(HttpStatus.OK)
     @Get()
     findAll(@Query() params: GetPostsDto) {
@@ -67,8 +64,20 @@ export class PostsController {
             params.limit,
             params.sortBy,
             params.sortOrder,
-            params.relations,
         );
+    }
+
+    @ApiOperation({
+        description: 'Get one post by id',
+        summary: 'Get post',
+    })
+    @ApiOkResponse({
+        type: Posts_Response,
+    })
+    @HttpCode(HttpStatus.OK)
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return this.postsService.findOne(+id);
     }
 
     @ApiBearerAuth()

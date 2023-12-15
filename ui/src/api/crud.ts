@@ -2,19 +2,17 @@ import { api } from "./api";
 
 export const crud = (name: string, requests: any = {}) => {
   return {
-    // getOne: (id, relations = []) =>
-    //   api(
-    //     {
-    //       url: `/${name}/${id}?${relations.reduce(
-    //         (p, c) => p + 'relations[]=' + c + '&',
-    //         '',
-    //       )}`,
-    //       method: 'GET',
-    //       data: {},
-    //     },
-    //     (response) => actions.retrieve(response.data),
-    //     host,
-    //   ),
+    getOne: (id: string, relations = []) =>
+      api(
+        `/${name}/${id}?${relations.reduce(
+          (p, c) => p + "relations[]=" + c + "&",
+          ""
+        )}`,
+        {
+          method: "GET",
+        },
+        (response: any) => response
+      ),
 
     getList: (args: any = {}) => {
       const { page, limit, filters = {}, sorts = [], relations = [] } = args;
