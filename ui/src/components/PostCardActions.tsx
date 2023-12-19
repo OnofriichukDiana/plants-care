@@ -16,11 +16,11 @@ interface IProps {
 }
 
 function PostCardActions({ post }: IProps) {
+  const router = useRouter();
   const { me } = useAuthStore();
   const [isLiked, setIsLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(post?.countLikes);
   const [isImageGalleryOpen, setIsImageGalleryOpen] = useState(false);
-  const router = useRouter();
 
   const isPostLiked = async () => {
     if (!!post?.id && !!me) {
@@ -31,17 +31,21 @@ function PostCardActions({ post }: IProps) {
 
   useEffect(() => {
     isPostLiked();
-  }, [post]);
+  }, [post, me]);
 
   const onLike = async () => {
-    if (isLiked) {
-      setIsLiked(false);
-      await postLikesApi.delete(post.id);
-      setCountLikes(post.countLikes - 1);
+    if (!me) {
+      router.push("/signin");
     } else {
-      setIsLiked(true);
-      setCountLikes(post.countLikes + 1);
-      await postLikesApi.create({ postId: post.id });
+      if (isLiked) {
+        setIsLiked(false);
+        await postLikesApi.delete(post.id);
+        setCountLikes(post.countLikes - 1);
+      } else {
+        setIsLiked(true);
+        setCountLikes(post.countLikes + 1);
+        await postLikesApi.create({ postId: post.id });
+      }
     }
   };
 

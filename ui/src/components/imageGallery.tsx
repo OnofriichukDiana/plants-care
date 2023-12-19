@@ -11,6 +11,20 @@ const ImageGallery: React.FC<IProps> = ({ isOpen, onClose, images }) => {
   const [selected, setSelected] = useState(images[0]);
   const [isAnimate, setIsAnimate] = useState(false);
 
+  const animate = () => {
+    setIsAnimate(true);
+
+    setTimeout(() => {
+      setIsAnimate(false);
+    }, 500);
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      animate();
+    }
+  }, [isOpen]);
+
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -46,11 +60,7 @@ const ImageGallery: React.FC<IProps> = ({ isOpen, onClose, images }) => {
 
   const handleThumbnailClick = (item: any) => {
     setSelected(item);
-    setIsAnimate(true);
-
-    setTimeout(() => {
-      setIsAnimate(false);
-    }, 500);
+    animate();
   };
 
   return (
@@ -68,9 +78,8 @@ const ImageGallery: React.FC<IProps> = ({ isOpen, onClose, images }) => {
           />
           <ul className="flex items-center justify-center mt-3">
             {images?.map((i: any) => (
-              <li>
+              <li key={i?.id}>
                 <img
-                  key={i?.id}
                   src={i?.media?.path}
                   alt={`Thumbnail`}
                   className={`w-20 h-20 object-cover cursor-pointer mx-2  ${

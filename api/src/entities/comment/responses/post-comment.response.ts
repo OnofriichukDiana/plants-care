@@ -5,6 +5,7 @@ import { User } from '../../user/user.entity';
 import { Post } from 'src/entities/post/post.entity';
 import { PostComment } from '../post-comment.entity';
 import { CommentFile } from 'src/entities/media/comment-file.entity';
+import { CommentLike } from 'src/entities/like/comment-like.entity';
 
 export class PostCommentResponse implements PostComment {
     @ApiProperty(getApiPropertyMetadata(PostComment, 'id'))
@@ -14,6 +15,10 @@ export class PostCommentResponse implements PostComment {
     @ApiProperty(getApiPropertyMetadata(PostComment, 'message'))
     @Expose()
     message: string;
+
+    @ApiProperty(getApiPropertyMetadata(PostComment, 'countLikes'))
+    @Expose()
+    countLikes: number;
 
     @ApiProperty(getApiPropertyMetadata(PostComment, 'postId'))
     @Expose()
@@ -46,6 +51,10 @@ export class PostCommentResponse implements PostComment {
     @ApiProperty(getApiPropertyMetadata(PostComment, 'commentFiles'))
     @Expose()
     commentFiles: CommentFile[];
+
+    @ApiProperty(getApiPropertyMetadata(PostComment, 'commentLikes'))
+    @Expose()
+    commentLikes: CommentLike[];
 
     @ApiProperty(getApiPropertyMetadata(PostComment, 'createdAt'))
     @Expose()

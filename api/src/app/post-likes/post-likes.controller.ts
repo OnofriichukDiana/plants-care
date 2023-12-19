@@ -9,18 +9,55 @@ import {
     UseGuards,
     Param,
     Delete,
+    Query,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+    ApiOkResponse,
+    ApiOperation,
+    ApiQuery,
+    ApiTags,
+} from '@nestjs/swagger';
 import { CreatePostLikesDto } from './dto/create-post-like.dto';
 import { PostLikes_Response } from './post-likes.response';
 import { RequestType } from 'src/types';
 import { AuthGuard } from '../auth/auth.guard';
 import { PostLikesService } from './post-likes.service';
+import { GetPostLikesDto } from './dto/get-post-likes-query.dto';
 
 @Controller('post-likes')
 @ApiTags('PostLikes')
 export class PostLikesController {
     constructor(private readonly postLikesService: PostLikesService) {}
+
+    @ApiOperation({
+        description: 'Get all likes for current post',
+        summary: 'Get post likes',
+    })
+    @ApiQuery({
+        required: true,
+        name: 'postId',
+        type: 'number',
+    })
+    @ApiQuery({
+        required: false,
+        name: 'page',
+        type: 'number',
+    })
+    @ApiQuery({
+        required: false,
+        name: 'limit',
+        type: 'number',
+    })
+    @HttpCode(HttpStatus.OK)
+    @Get()
+    findAll(@Query() params: GetPostLikesDto) {
+        return this.postLikesService.findAll(
+            params.postId,
+            params.page,
+            params.limit,
+        );
+    }
+
     @UseGuards(AuthGuard)
     @ApiOperation({
         description: 'is post liked',

@@ -1,16 +1,24 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+    ForbiddenException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePostsDto } from './dto/create-post.dto';
 import { Post } from 'src/entities/post/post.entity';
 import { transform } from 'src/helpers/class-transformer';
 import { Posts_Response } from './posts.response';
+import { PostFilesService } from '../post-files/post-files.service';
+import { PostCommentsService } from '../post-comments/post-comments.service';
 
 @Injectable()
 export class PostsService {
     constructor(
         @InjectRepository(Post)
         private readonly postsRepository: Repository<Post>,
+        private postFilesService: PostFilesService,
+        private postCommentsService: PostCommentsService,
     ) {}
 
     async findAll(
@@ -62,16 +70,9 @@ export class PostsService {
             .leftJoinAndSelect('post.user', 'user')
             .leftJoinAndSelect('post.postFiles', 'postFiles')
             .leftJoinAndSelect('postFiles.media', 'media')
-            .leftJoinAndSelect('post.postLikes', 'likes')
-            .leftJoinAndSelect('likes.auth', 'likeAuth')
-            .leftJoinAndSelect('post.postComments', 'comment')
-            .leftJoinAndSelect('comment.commentFiles', 'commentFiles')
-            .leftJoinAndSelect('comment.auth', 'commentAuth')
             .getOne();
 
         if (!post) throw new NotFoundException();
-
-        console.log(post);
 
         return transform(Posts_Response, post);
     }
@@ -82,5 +83,27 @@ export class PostsService {
             ...createPostsDto,
         });
         return newPost;
+    }
+
+    async remove(id: number, userId: number) {
+        const post = await this.postsRepository.findOne({
+            where: { id },
+            relations: { postFiles: true, postComments: true },
+        });
+
+        if (!post) throw new NotFoundException();
+
+        if (post.userId !== userId)
+            throw new ForbiddenException('You have no access to this resource');
+
+        for (const file of post.postFiles) {
+            await this.postFilesService.delete(file.id);
+        }
+
+        for (const comment of post.postComments) {
+            await this.postCommentsService.remove(comment.id, userId);
+        }
+
+        await this.postsRepository.delete({ id });
     }
 }

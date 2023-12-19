@@ -8,9 +8,14 @@ import Link from "next/link";
 interface IProps {
   user: any;
   size?: number;
+  withoutSignature?: boolean;
 }
 
-const Avatar: React.FC<IProps> = ({ user, size = 3 }) => {
+const Avatar: React.FC<IProps> = ({
+  user,
+  size = 3,
+  withoutSignature = false,
+}) => {
   let background = user?.avatarBackground || "#2f6a48";
   let icon = user?.icon || getRandomAvatarIcon();
   const [isHovered, setIsHovered] = useState(false);
@@ -36,12 +41,12 @@ const Avatar: React.FC<IProps> = ({ user, size = 3 }) => {
           height={size * 9}
         />
       </Link>
-      {isHovered && (
+      {isHovered && !withoutSignature && !!user?.name && (
         <p
           className="subtitle1 absolute right-7 w-100 p-2 bg-white rounded-md border-2"
           style={{ width: "7vw" }}
         >
-          {user?.name}
+          {user.name}
         </p>
       )}
     </div>

@@ -24,4 +24,14 @@ export class PostFilesService {
         });
         return postFile;
     }
+
+    async delete(postFileId: number) {
+        const postFile = await this.postFilesRepository.findOne({
+            where: { id: postFileId },
+        });
+
+        await this.mediaService.remove(postFile.mediaId);
+        await this.postFilesRepository.delete(postFile.id);
+        return postFile;
+    }
 }

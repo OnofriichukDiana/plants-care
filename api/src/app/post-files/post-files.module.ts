@@ -9,5 +9,6 @@ import { PostFile } from 'src/entities/media/post-file.entity';
     controllers: [PostFilesController],
     providers: [PostFilesService],
     imports: [TypeOrmModule.forFeature([PostFile]), MediaModule],
+    exports: [PostFilesService],
 })
 export class PostFilesModule {}

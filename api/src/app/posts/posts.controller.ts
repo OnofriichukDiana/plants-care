@@ -9,6 +9,7 @@ import {
     UseGuards,
     Query,
     Param,
+    Delete,
 } from '@nestjs/common';
 import {
     ApiBearerAuth,
@@ -93,5 +94,16 @@ export class PostsController {
     @Post()
     create(@Body() createPostsDto: CreatePostsDto, @Req() req: RequestType) {
         return this.postsService.create(createPostsDto, +req.userId);
+    }
+
+    @UseGuards(AuthGuard)
+    @ApiOperation({
+        description: 'Delete post by id',
+        summary: 'Delete post',
+    })
+    @HttpCode(HttpStatus.OK)
+    @Delete(':id')
+    remove(@Param('id') id: string, @Req() req: RequestType) {
+        return this.postsService.remove(+id, +req.userId);
     }
 }

@@ -3,11 +3,17 @@ import { ReactNode, useRef } from "react";
 
 interface UploadFilesProps {
   icon: ReactNode;
-  styles?: string;
   onChange: (files: File[]) => void;
+  styles?: string;
+  accept?: string;
 }
 
-const UploadFiles = ({ onChange, icon, styles }: UploadFilesProps) => {
+const UploadFiles = ({
+  onChange,
+  icon,
+  styles,
+  accept = ".jpg, .jpeg, .png, .gif",
+}: UploadFilesProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
@@ -29,7 +35,7 @@ const UploadFiles = ({ onChange, icon, styles }: UploadFilesProps) => {
             onChange(Array.from(selectedFiles));
           }
         }}
-        accept=".jpg, .jpeg, .png, .gif"
+        accept={accept}
       />
       {icon}
     </div>

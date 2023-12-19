@@ -1,7 +1,7 @@
 import Avatar from "./Avatar";
-import { formatDistanceToNow, isValid, parseISO } from "date-fns";
 import Link from "next/link";
 import PostCardActions from "./PostCardActions";
+import formatDate from "@/helpers/formatDate";
 
 export type PostItemType = {
   id: number;
@@ -30,13 +30,6 @@ interface IProps {
 }
 
 function PostCard({ post }: IProps) {
-  const formattedDate = (createdAt: string) => {
-    const parsedDate = parseISO(createdAt);
-    if (!isValid(parsedDate)) {
-      return createdAt;
-    }
-    return formatDistanceToNow(parsedDate, { addSuffix: true });
-  };
   const isOverflowing =
     !!post?.postFiles?.length && post?.message?.length > 120;
 
@@ -46,7 +39,7 @@ function PostCard({ post }: IProps) {
       <div className="w-48 md:w-96 p-4 rounded-2xl mx-auto bg-white ml-2 card hover:shadow-lg hover:border hover:border-gray-300 flex flex-col justify-between">
         <div>
           <p className="subtitle2 text-neutral-400 mb-1">
-            {formattedDate(post.createdAt)}
+            {formatDate(post.createdAt)}
           </p>
           <Link
             href={`/posts/${post?.id}_${post?.tags
@@ -69,7 +62,7 @@ function PostCard({ post }: IProps) {
                 .join()}`}
             >
               <img
-                className="w-48 h-48 md:w-96 md:h-96 "
+                className="w-48 h-48 md:w-96 md:h-96"
                 src={post?.postFiles[0]?.media?.path}
                 alt={post?.tags[0]}
                 style={{ objectFit: "cover" }}

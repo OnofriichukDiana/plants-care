@@ -10,6 +10,7 @@ import {
 import { User } from '../user/user.entity';
 import { Post } from '../post/post.entity';
 import { CommentFile } from '../media/comment-file.entity';
+import { CommentLike } from '../like/comment-like.entity';
 
 @Entity()
 export class PostComment {
@@ -22,6 +23,9 @@ export class PostComment {
     @Column()
     postId: number;
 
+    @Column({ default: 0 })
+    countLikes: number;
+
     @ManyToOne(() => Post, { onDelete: 'CASCADE' })
     post: Post;
 
@@ -31,7 +35,7 @@ export class PostComment {
     @ManyToOne(() => User, { onDelete: 'CASCADE' })
     auth: User;
 
-    @Column()
+    @Column({ nullable: true })
     parentId: number;
 
     @ManyToOne(() => PostComment, { onDelete: 'CASCADE' })
@@ -42,6 +46,9 @@ export class PostComment {
 
     @OneToMany(() => CommentFile, ({ comment }) => comment)
     commentFiles: CommentFile[];
+
+    @OneToMany(() => CommentLike, ({ comment }) => comment)
+    commentLikes: CommentLike[];
 
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;

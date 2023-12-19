@@ -82,6 +82,7 @@ p {
   font-weight: 400;
   font-size: 1.15rem;
   line-height: 1.5;
+  color: rgb(71 85 105);
 }
 
 .subtitle1 {
@@ -104,6 +105,7 @@ p {
 .main-card {
   margin: 0 auto;
   margin-top: 10rem;
+  margin-bottom: 6rem;
   box-shadow: 2px 4px 30px 0px #00064514;
   background-color: #ffffff;
   width: 80%;

@@ -7,19 +7,21 @@ interface IProps {
   icon?: any;
   iconName?: string;
   onClick?: () => void;
+  type?: any;
 }
 const IconButton: React.FC<IProps> = ({
   onClick,
   iconName,
   icon: Icon,
   signature,
+  type = "button",
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="relative">
       <button
-        type="button"
+        type={type}
         className="icon-button"
         onClick={onClick}
         onMouseEnter={() => setIsHovered(true)}

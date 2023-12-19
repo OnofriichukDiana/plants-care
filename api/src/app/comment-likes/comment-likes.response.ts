@@ -1,10 +1,10 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { PostLikeResponse } from 'src/entities/like/responses/post-like.response';
+import { CommentLikeResponse } from 'src/entities/like/responses/comment-like.response';
 import { UserResponse } from 'src/entities/user/responses/user.response';
 import { User } from 'src/entities/user/user.entity';
 
-export class PostLikes_Response_Auth extends PickType(UserResponse, [
+export class CommentLikes_Response_Auth extends PickType(UserResponse, [
     'id',
     'name',
     'icon',
@@ -12,17 +12,17 @@ export class PostLikes_Response_Auth extends PickType(UserResponse, [
     'avatarUrl',
 ]) {}
 
-export class PostLikes_Response extends PickType(PostLikeResponse, [
+export class CommentLikes_Response extends PickType(CommentLikeResponse, [
     'id',
-    'postId',
+    'commentId',
     'authId',
     'auth',
     'createdAt',
     'updatedAt',
 ]) {
     @ApiProperty({
-        type: () => PostLikes_Response_Auth,
+        type: () => CommentLikes_Response_Auth,
     })
-    @Type(() => PostLikes_Response_Auth)
+    @Type(() => CommentLikes_Response_Auth)
     declare auth: User;
 }

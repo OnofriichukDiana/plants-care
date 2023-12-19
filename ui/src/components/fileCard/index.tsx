@@ -1,7 +1,9 @@
+"use client";
 import { format, isValid } from "date-fns";
 import numeral from "numeral";
 import { useState } from "react";
-import IconButton from "./IconButton";
+import IconButton from "../IconButton";
+import FileThumbnail from "./FileThumbnail";
 
 interface IProps {
   name?: string;
@@ -28,19 +30,30 @@ const FileCard: React.FC<IProps> = ({
 
   return (
     <div
-      className="card relative p-1 pt-4 m-1 opacity-90 w-1/5"
+      className="card flex flex-col justify-between relative p-1 pt-4 m-1 h-fit"
       onMouseEnter={() => setIsCardHover(true)}
       onMouseLeave={() => setIsCardHover(false)}
     >
-      {uiType == "image" && !!imageUrl ? (
-        <img className="mx-auto" width="90%" src={imageUrl}></img>
+      {uiType?.includes("image") && !!imageUrl ? (
+        <img
+          className={`mx-auto w-36 h-36 md:w-48 md:h-48 ${
+            !!onClick && "cursor-pointer"
+          }`}
+          src={imageUrl}
+          style={{ objectFit: "cover" }}
+          onClick={!!onClick ? onClick : () => {}}
+        ></img>
       ) : (
-        <div onClick={!!onClick ? onClick : () => {}}>
-          {/* <FileThumbnail format={uiType} sx={{ width: 40, height: 40 }} /> */}
+        <div
+          className={`mx-auto ${!!onClick && "cursor-pointer"}`}
+          onClick={!!onClick ? onClick : () => {}}
+        >
+          <FileThumbnail format={uiType} />
         </div>
       )}
       <div>
         <p
+          style={{ maxWidth: "100px" }}
           className="subtitle2 truncate"
           onClick={!!onClick ? onClick : () => {}}
         >
@@ -49,11 +62,13 @@ const FileCard: React.FC<IProps> = ({
         {description && <p className="subtitle2">{description}</p>}
       </div>
       <div className="flex justify-between subtitle2">
-        <div>
-          {(() => {
-            return numeral(size || 0).format("0.0 b");
-          })()}
-        </div>
+        {!!size && (
+          <div>
+            {(() => {
+              return numeral(size || 0).format("0.0 b");
+            })()}
+          </div>
+        )}
 
         <div />
 

@@ -11,6 +11,46 @@ import { Post } from 'src/entities/post/post.entity';
 export class PostLikesService {
     constructor(@InjectDataSource() private readonly dateSource: DataSource) {}
 
+    async findAll(postId: string, page = '1', limit = '25') {
+        const postLikesRepository = this.dateSource.getRepository(PostLike);
+
+        const qb = postLikesRepository
+            .createQueryBuilder('postLike')
+            .leftJoinAndSelect('postLike.auth', 'auth');
+
+        let currentPage = +page;
+        const totalItems = await qb.getCount();
+        const totalPages = Math.ceil(totalItems / +limit);
+        if (currentPage > totalPages) currentPage = 1;
+        const paginationSkip = (currentPage - 1) * +limit;
+
+        qb.skip(paginationSkip);
+        qb.take(+limit);
+
+        const postLikes = await qb
+            .where(`"postLike"."postId" = :postId`, {
+                postId: +postId,
+            })
+            .getMany();
+
+        const items = postLikes.map((postLike) =>
+            transform(PostLikes_Response, postLike),
+        );
+
+        const result = {
+            items,
+            currentPage,
+            limit,
+            totalItems,
+            totalPages,
+            nextPage: totalPages - currentPage > 0 ? currentPage + 1 : null,
+            prevPage:
+                currentPage > 1 && totalPages > 1 ? currentPage - 1 : null,
+        };
+
+        return result;
+    }
+
     async isLiked(postId: number, authId: number) {
         const postLikesRepository = this.dateSource.getRepository(PostLike);
 

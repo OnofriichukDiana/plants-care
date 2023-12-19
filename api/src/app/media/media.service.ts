@@ -46,18 +46,14 @@ export class MediaService {
         return media.id;
     }
 
-    async remove(fileName: string): Promise<void> {
+    async remove(mediaId: number): Promise<void> {
         const Bucket = this.configService.get<string>('B2_BUCKET_NAME');
-        await this.s3.deleteObject({ Bucket, Key: fileName }).promise();
-        await this.removeMediaRecord(fileName);
-    }
-
-    private async removeMediaRecord(fileName: string): Promise<void> {
-        const media = await this.mediaRepository.findOne({
-            where: { name: fileName },
+        const media = await this.mediaRepository.findOneBy({
+            id: mediaId,
         });
         if (media) {
-            await this.mediaRepository.remove(media);
+            await this.s3.deleteObject({ Bucket, Key: media.path }).promise();
+            await this.mediaRepository.delete(media.id);
         }
     }
 }
