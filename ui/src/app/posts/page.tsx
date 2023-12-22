@@ -1,14 +1,14 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Spiner from "@/components/Spinner";
-import PostCard, { PostItemType } from "@/components/postCard";
+import PostCard, { IPost } from "@/components/postCard";
 import { postsApi } from "@/api";
 import PostInput from "@/components/PostInput";
 
 const Page = () => {
   const scrollChecker = useRef<HTMLUListElement | null>(null);
 
-  const [posts, setPosts] = useState<any>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [page, setPage] = useState<any>(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,11 +47,13 @@ const Page = () => {
     <div className="dc min-h-screen">
       <div className="main-card">
         <PostInput afterSave={loadPosts} />
-        <ul ref={scrollChecker} className="flex flex-wrap gap-6">
-          {posts.map((post: PostItemType) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </ul>
+        <section>
+          <ul ref={scrollChecker} className="flex flex-wrap gap-6">
+            {posts.map((post: IPost) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </ul>
+        </section>
         {isLoading && (
           <div className="flex justify-center">
             <Spiner />

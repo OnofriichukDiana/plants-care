@@ -1,7 +1,7 @@
 "use client";
 import { FaRegHeart } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
-import { PostItemType } from ".";
+import { IPost } from ".";
 import IconButton from "../IconButton";
 import { FaRegCommentDots } from "react-icons/fa";
 import { CiSquarePlus } from "react-icons/ci";
@@ -12,7 +12,7 @@ import ImageGallery from "../imageGallery";
 import { useAuthStore } from "@/api/authStore";
 
 interface IProps {
-  post: PostItemType;
+  post: IPost;
 }
 
 function PostCardActions({ post }: IProps) {

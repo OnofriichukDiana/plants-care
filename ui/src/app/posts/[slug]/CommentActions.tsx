@@ -1,10 +1,8 @@
 "use client";
-import { FaRegHeart } from "react-icons/fa";
-import { FcLike } from "react-icons/fc";
 import IconButton from "@/components/IconButton";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { commentLikesApi, postCommentsApi } from "@/api";
+import { useState } from "react";
+import { postCommentsApi } from "@/api";
 import { useAuthStore } from "@/api/authStore";
 import { IComment } from "./page";
 import { MdDeleteOutline } from "react-icons/md";

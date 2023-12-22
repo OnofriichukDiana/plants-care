@@ -4,14 +4,14 @@ import { useAuthStore } from "@/api/authStore";
 import LoadingButton from "@/components/LoadingButton";
 import Modal from "@/components/Modal";
 import Notification from "@/components/Notification";
-import { PostItemType } from "@/components/postCard";
+import { IPost } from "@/components/postCard";
 import useNotification from "@/helpers/useNotification";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
 interface IProps {
-  post: PostItemType;
+  post: IPost;
 }
 
 const DeletePost = ({ post }: IProps) => {

@@ -28,8 +28,9 @@ type ErrorType = {
 };
 interface IProps {
   afterSave: () => void;
+  withoutAvatar?: boolean;
 }
-function PostInput({ afterSave }: IProps) {
+function PostInput({ afterSave, withoutAvatar }: IProps) {
   const router = useRouter();
   const { notification, showNotification } = useNotification();
 
@@ -110,7 +111,7 @@ function PostInput({ afterSave }: IProps) {
       {notification && <Notification message={notification.message} />}
       <form onSubmit={onSubmit}>
         <div className="mb-4 flex">
-          <Avatar user={me} size="medium" />
+          {!withoutAvatar && <Avatar user={me} size="medium" />}
           <div className="ml-4 w-full">
             <div className="relative">
               <textarea

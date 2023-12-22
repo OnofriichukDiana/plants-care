@@ -29,3 +29,14 @@ export const commentLikesApi = crud("comment-likes", {
       (response: boolean) => response
     ),
 });
+
+export const userToUserApi = crud("user-to-user", {
+  isSubscribed: (userId: number) =>
+    api(
+      `/comment-likes/${userId}/is-subscribed`,
+      {
+        method: "GET",
+      },
+      (response: boolean) => response
+    ),
+});

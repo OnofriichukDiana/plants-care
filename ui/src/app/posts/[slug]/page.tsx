@@ -8,6 +8,7 @@ import CommentActions from "./CommentActions";
 import formatDate from "@/helpers/formatDate";
 import Link from "next/link";
 import FilesList from "./FilesList";
+import { IUser } from "@/app/user/[slug]/page";
 
 interface IProps {
   params: { slug: string };
@@ -20,7 +21,7 @@ export interface IComment {
   parentId?: number;
   parent?: IComment;
   authId?: number;
-  auth?: any;
+  auth?: IUser;
   commentFiles?: any;
   children?: IComment[];
   createdAt?: string;
@@ -63,6 +64,9 @@ const Page = async ({ params: { slug } }: IProps) => {
   });
   const tree = arrayToTree(postComments);
 
+  const getUser = (nodes: ReturnType) =>
+    postComments.find((com: IComment) => com.id === nodes.parentId).auth;
+
   const renderTree = (nodes: ReturnType) => {
     return (
       <li
@@ -77,13 +81,11 @@ const Page = async ({ params: { slug } }: IProps) => {
               <div style={{ maxWidth: "85%" }}>
                 <p className="subtitle1 text-slate-600">
                   {nodes.parentId && (
-                    <Link href={`/`} style={{ color: "#2f6a48" }}>
-                      @
-                      {
-                        postComments.find(
-                          (com: IComment) => com.id === nodes.parentId
-                        ).auth.name
-                      }
+                    <Link
+                      href={`/users/${getUser(nodes).id}_${getUser(nodes).id}`}
+                      style={{ color: "#2f6a48" }}
+                    >
+                      @{getUser(nodes).name}
                     </Link>
                   )}{" "}
                   {nodes?.message}
@@ -93,9 +95,9 @@ const Page = async ({ params: { slug } }: IProps) => {
                 )}
               </div>
               {!!nodes?.createdAt && (
-                <p className="subtitle2 text-neutral-400 mb-1">
+                <time className="subtitle2 text-neutral-400 mb-1">
                   {formatDate(nodes?.createdAt)}
-                </p>
+                </time>
               )}
             </div>
             <CommentActions comment={nodes} postId={post.id} />

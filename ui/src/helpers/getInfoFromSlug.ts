@@ -25,6 +25,20 @@ export function getTagsFromSlug(slug: string | undefined): string {
   }
 
   const res = tags.replace(/,/g, " | ");
-  console.log(res);
   return res;
+}
+
+export function getNameFromSlug(slug: string | undefined): string {
+  if (!slug) {
+    console.error("Invalid slug:", slug);
+    return "Plants care community";
+  }
+  const decodedSlug = decodeURIComponent(slug);
+  const name = decodedSlug.split("_")[1];
+  if (!name) {
+    console.error("Invalid slug format:", slug);
+    return "Plants care community";
+  }
+
+  return name;
 }

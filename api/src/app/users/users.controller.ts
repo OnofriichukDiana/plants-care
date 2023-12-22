@@ -56,6 +56,19 @@ export class UsersController {
         );
     }
 
+    @ApiOperation({
+        description: 'Get user by id',
+        summary: 'Get user',
+    })
+    @ApiOkResponse({
+        type: Users_Response,
+    })
+    @HttpCode(HttpStatus.OK)
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return this.usersService.findOne(+id);
+    }
+
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
     @ApiOperation({

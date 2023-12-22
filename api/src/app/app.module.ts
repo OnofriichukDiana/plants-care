@@ -11,6 +11,7 @@ import { PostLikesModule } from './post-likes/post-likes.module';
 import { PostCommentsModule } from './post-comments/post-comments.module';
 import { CommentFilesModule } from './comment-files/comment-files.module';
 import { CommentLikesModule } from './comment-likes/comment-likes.module';
+import { UserToUsersModule } from './user-to-users/user-to-users.module';
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { CommentLikesModule } from './comment-likes/comment-likes.module';
         PostCommentsModule,
         CommentFilesModule,
         CommentLikesModule,
+        UserToUsersModule,
         ConfigModule.forRoot({
             isGlobal: true,
             load: [dbConf],

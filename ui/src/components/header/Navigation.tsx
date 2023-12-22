@@ -7,7 +7,7 @@ const Navigation = () => {
   const pathname = usePathname();
 
   return (
-    <div>
+    <menu>
       {menu.map((item) => {
         const isActive = pathname === item.path;
         return (
@@ -21,7 +21,7 @@ const Navigation = () => {
           </Link>
         );
       })}
-    </div>
+    </menu>
   );
 };
 export default Navigation;

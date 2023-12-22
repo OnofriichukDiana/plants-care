@@ -7,6 +7,10 @@ export class GetPostsDto {
 
     @IsString()
     @IsOptional()
+    userId: string;
+
+    @IsString()
+    @IsOptional()
     page: string;
 
     @IsString()

@@ -12,6 +12,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { IComment } from "./page";
 import Spiner from "@/components/Spinner";
+import { IUser } from "@/app/user/[slug]/page";
 
 interface IProps {
   comment: IComment;
@@ -19,7 +20,7 @@ interface IProps {
 
 interface ILike {
   id?: number;
-  auth?: any;
+  auth?: IUser;
   createdAt: string;
 }
 
@@ -110,9 +111,9 @@ const CommentLikes = ({ comment }: IProps) => {
             <li key={like?.id} className="flex items-center mb-2">
               <Avatar user={like?.auth} withoutSignature />
               <p className="ml-2 body1 text-slate-600">{like?.auth?.name}</p>
-              <p className="subtitle2 text-neutral-400 ml-3">
+              <time className="subtitle2 text-neutral-400 ml-3">
                 {formatDate(like?.createdAt)}
-              </p>
+              </time>
             </li>
           ))}
         </ul>

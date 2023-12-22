@@ -7,6 +7,8 @@ export class Users_Response extends PickType(UserResponse, [
     'email',
     'icon',
     'avatarUrl',
+    'countSubscribers',
+    'countSubscriptions',
     'avatarBackground',
     'createdAt',
     'updatedAt',

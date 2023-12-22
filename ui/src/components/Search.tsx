@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import { postsApi, usersApi } from "@/api";
-import PostCard from "./postCard";
+import PostCard, { IPost } from "./postCard";
 import { IoIosSearch } from "react-icons/io";
 import Spiner from "./Spinner";
+import { IUser } from "@/app/user/[slug]/page";
 
 type FiltersType = {
   nameOrTags?: string | null;
@@ -13,7 +14,7 @@ type FiltersType = {
 let timer: any;
 
 function Search() {
-  const [result, setResult] = useState<any>([]);
+  const [result, setResult] = useState<IUser[] | IPost[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState<FiltersType>({});
 

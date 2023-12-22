@@ -5,9 +5,10 @@ import Image from "next/image";
 import getRandomAvatarIcon from "@/helpers/avatarIcons";
 import Link from "next/link";
 import { getRandomColor } from "@/helpers/getRandomColor";
+import { IUser } from "@/app/user/[slug]/page";
 
 interface IProps {
-  user: any;
+  user: IUser | undefined;
   size?: string;
   withoutSignature?: boolean;
 }
@@ -28,7 +29,7 @@ const Avatar: React.FC<IProps> = ({
   return (
     <div className="relative">
       <Link
-        href={`/${user?.id}`}
+        href={`/user/${user?.id}_${user?.name}`}
         className={`avatar ${size}`}
         style={avatarStyle}
         onMouseEnter={() => setIsHovered(true)}

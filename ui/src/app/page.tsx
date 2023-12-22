@@ -10,9 +10,9 @@ export default async function Main() {
         <Search />
         <div className="w-4/5 mx-auto">
           <div className="flex justify-between items-center mb-7 md:mb-20">
-            <p className="h4 w-1/2">
+            <strong className="h4 w-1/2">
               Grow Together: Your Ultimate Plants Care Community!
-            </p>
+            </strong>
             <div className="w-1/2">
               <Image
                 src={`/images/dreamer.svg`}
@@ -33,15 +33,15 @@ export default async function Main() {
                 layout="responsive"
               />
             </div>
-            <p className="h4 w-1/2">
+            <strong className="h4 w-1/2">
               Green Vibes Only: Unite with Plant Lovers Worldwide!
-            </p>
+            </strong>
           </div>
           <div className="flex justify-between items-center mb-7 md:mb-20">
-            <p className="h4 w-1/2">
+            <strong className="h4 w-1/2">
               From Expert Tips to Plant Shops: Dive into Our Plants Care
               Collective!
-            </p>
+            </strong>
 
             <div className=" w-1/2">
               <Image
@@ -63,9 +63,9 @@ export default async function Main() {
                 layout="responsive"
               />
             </div>
-            <p className="h4 w-1/2">
+            <strong className="h4 w-1/2">
               Where Plants Thrive and Connections Bloom: Join Us Today!
-            </p>
+            </strong>
           </div>
         </div>
       </div>

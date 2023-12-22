@@ -41,6 +41,11 @@ export class PostsController {
     })
     @ApiQuery({
         required: false,
+        name: 'userId',
+        type: 'string',
+    })
+    @ApiQuery({
+        required: false,
         name: 'page',
         type: 'number',
     })
@@ -68,6 +73,7 @@ export class PostsController {
             params.sortBy,
             params.sortOrder,
             params.nameOrTags,
+            params.userId,
         );
     }
 

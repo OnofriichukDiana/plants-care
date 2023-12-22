@@ -3,7 +3,7 @@ import Link from "next/link";
 import PostCardActions from "./PostCardActions";
 import formatDate from "@/helpers/formatDate";
 
-export type PostItemType = {
+export interface IPost {
   id: number;
   message: string;
   isShowTags: boolean;
@@ -13,35 +13,26 @@ export type PostItemType = {
   user: any;
   postFiles: any;
   createdAt: string;
-};
-
-// export type UserType = {
-//   id: number;
-//   name?: string;
-//   isShowTags: boolean;
-//   tags: string[];
-//   user: any;
-//   postFiles: any;
-//   updatedAt: string;
-// };
-
-interface IProps {
-  post: PostItemType;
 }
 
-function PostCard({ post }: IProps) {
+interface IProps {
+  post: IPost;
+  withoutAvatar?: boolean;
+}
+
+function PostCard({ post, withoutAvatar }: IProps) {
   const isOverflowing =
     !!post?.postFiles?.length && post?.message?.length > 120;
 
   return (
     <li className="flex">
-      <Avatar user={post?.user} />
+      {!withoutAvatar && <Avatar user={post?.user} />}
       <div className="w-60 md:w-96 p-4 rounded-2xl mx-auto bg-white ml-2 card hover:shadow-lg hover:border hover:border-gray-300 flex flex-col justify-between">
         <div className="flex flex-col justify-between h-full">
           <div>
-            <p className="subtitle2 text-neutral-400 mb-1">
+            <time className="subtitle2 text-neutral-400 mb-1">
               {formatDate(post.createdAt)}
-            </p>
+            </time>
             <Link
               href={`/posts/${post?.id}_${post?.tags
                 ?.map((tag) => tag.slice(1))

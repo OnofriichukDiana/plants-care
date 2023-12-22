@@ -1,10 +1,11 @@
 "use client";
 import { postLikesApi } from "@/api";
 import { useAuthStore } from "@/api/authStore";
+import { IUser } from "@/app/user/[slug]/page";
 import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
 import Modal from "@/components/Modal";
-import { PostItemType } from "@/components/postCard";
+import { IPost } from "@/components/postCard";
 import Spiner from "@/components/Spinner";
 import UsersPreview from "@/components/UsersPreview";
 import formatDate from "@/helpers/formatDate";
@@ -14,12 +15,12 @@ import { FaRegHeart } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 
 interface IProps {
-  post: PostItemType;
+  post: IPost;
 }
 
 interface ILike {
   id?: number;
-  auth?: any;
+  auth?: IUser;
   createdAt: string;
 }
 
@@ -111,9 +112,9 @@ const PostLikes = ({ post }: IProps) => {
             <li key={like?.id} className="flex items-center mb-2">
               <Avatar user={like?.auth} withoutSignature />
               <p className="ml-2 body1 text-slate-600">{like?.auth?.name}</p>
-              <p className="subtitle2 text-neutral-400 ml-3">
+              <time className="subtitle2 text-neutral-400 ml-3">
                 {formatDate(like?.createdAt)}
-              </p>
+              </time>
             </li>
           ))}
         </ul>

@@ -27,6 +27,7 @@ export class PostsService {
         sortBy = 'createdAt',
         sortOrder: 'ASC' | 'DESC' = 'DESC',
         nameOrTags,
+        userId,
     ) {
         const qb = this.postsRepository
             .createQueryBuilder('post')
@@ -39,6 +40,9 @@ export class PostsService {
                 'EXISTS (SELECT 1 FROM unnest(post.tags) AS item WHERE item ILIKE :nameOrTags)',
                 { nameOrTags: `%${nameOrTags}%` },
             );
+        }
+        if (!!userId) {
+            qb.where('user.id = :userId', { userId });
         }
 
         let currentPage = +page;

@@ -33,9 +33,9 @@ const UserInfo = () => {
     <div>
       {!!me ? (
         <div className="flex items-center">
-          <Link href="/profile" className="mr-5">
+          <div className="mr-5">
             <Avatar user={me} />
-          </Link>
+          </div>
           <IconButton
             onClick={hendleLogOut}
             iconName={logOut}

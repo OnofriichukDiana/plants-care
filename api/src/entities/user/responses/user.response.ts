@@ -5,6 +5,7 @@ import { User } from '../user.entity';
 import { PostLike } from 'src/entities/like/post-like.entity';
 import { PostComment } from 'src/entities/comment/post-comment.entity';
 import { Post } from 'src/entities/post/post.entity';
+import { UserToUser } from '../user-to-user.entity';
 
 export class UserResponse implements User {
     @ApiProperty(getApiPropertyMetadata(User, 'id'))
@@ -34,6 +35,22 @@ export class UserResponse implements User {
     @ApiProperty(getApiPropertyMetadata(User, 'icon'))
     @Expose()
     icon: string;
+
+    @ApiProperty(getApiPropertyMetadata(User, 'countSubscribers'))
+    @Expose()
+    countSubscribers: number;
+
+    @ApiProperty(getApiPropertyMetadata(User, 'countSubscriptions'))
+    @Expose()
+    countSubscriptions: number;
+
+    @ApiProperty(getApiPropertyMetadata(User, 'subscribers'))
+    @Expose()
+    subscribers: UserToUser[];
+
+    @ApiProperty(getApiPropertyMetadata(User, 'subscriptions'))
+    @Expose()
+    subscriptions: UserToUser[];
 
     @ApiProperty(getApiPropertyMetadata(User, 'posts'))
     @Expose()
