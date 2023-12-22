@@ -7,15 +7,18 @@ import Footer from "@/components/footer";
 const lora = Lora({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Plants care",
-  description: "With care for plants",
+  title: "Grren vibes | community",
+  description:
+    "Join our vibrant plants community! Explore expert tips, connect with fellow enthusiasts, and cultivate your green thumb. Discover a supportive space for plant lovers to share triumphs, troubleshoot challenges, and grow together.",
 };
 
 function RootLayout({ children }: { children: React.ReactNode; params: any }) {
   return (
     <html lang="en">
       <body className={lora.className}>
-        <Header />
+        <header>
+          <Header />
+        </header>
         <main>{children}</main>
         <Footer />
       </body>

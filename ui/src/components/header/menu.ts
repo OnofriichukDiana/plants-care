@@ -1,6 +1,6 @@
 export const menu = [
   {
-    title: "Search",
+    title: "Main",
     path: "/",
   },
   {

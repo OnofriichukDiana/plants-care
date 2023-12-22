@@ -52,8 +52,17 @@ export class MediaService {
             id: mediaId,
         });
         if (media) {
-            await this.s3.deleteObject({ Bucket, Key: media.path }).promise();
-            await this.mediaRepository.delete(media.id);
+            try {
+                await this.s3
+                    .deleteObject({ Bucket, Key: media.path })
+                    .promise();
+
+                await this.mediaRepository.delete(media.id);
+                console.log('Successfully deleted from S3');
+            } catch (error) {
+                console.error('Error deleting object from S3:', error);
+                throw new Error('Failed to delete object from S3');
+            }
         }
     }
 }

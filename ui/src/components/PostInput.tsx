@@ -26,8 +26,10 @@ type DataType = {
 type ErrorType = {
   tags?: string | null;
 };
-
-function PostInput() {
+interface IProps {
+  afterSave: () => void;
+}
+function PostInput({ afterSave }: IProps) {
   const router = useRouter();
   const { notification, showNotification } = useNotification();
 
@@ -96,7 +98,7 @@ function PostInput() {
           setPostFiles([]);
           setPost(defaultPostData);
 
-          router.refresh();
+          afterSave();
         }
         setIsLoading(false);
       }
@@ -108,24 +110,25 @@ function PostInput() {
       {notification && <Notification message={notification.message} />}
       <form onSubmit={onSubmit}>
         <div className="mb-4 flex">
-          <Avatar user={me} size={5} />
-          <div style={{ width: "90%" }} className="ml-4">
+          <Avatar user={me} size="medium" />
+          <div className="ml-4 w-full">
             <div className="relative">
               <textarea
-                className="full-width"
+                className="md:w-full"
                 placeholder="Write a post"
                 onChange={(e) => {
                   setPost({ ...post, message: e.target.value });
                 }}
                 rows={4}
+                cols={20}
                 value={post?.message || ""}
               />
               <UploadFiles
                 onChange={(newFiles) =>
                   setPostFiles([...postFiles, ...newFiles])
                 }
-                icon={<IoImagesOutline size={50} color="gray" />}
-                styles="bottom-5 right-3"
+                icon={<IoImagesOutline className="icon-large" />}
+                styles="bottom-3 right-5 md:bottom-5 md:right-3"
               />
 
               {postFiles?.length > 0 && (
@@ -165,8 +168,8 @@ function PostInput() {
               )}
             </div>
 
-            <div className="flex justify-between flex-wrap mt-2">
-              <div className="flex items-center">
+            <div className="flex justify-between flex-wrap mt-2 mb-4 md:mb-10">
+              <div className="flex items-center flex-wrap gap-2">
                 <div className="relative">
                   <input
                     onChange={(e) => {
@@ -192,7 +195,14 @@ function PostInput() {
                   }
                 />
               </div>
-              <LoadingButton signature="Post" isLoading={isLoading} />
+              <LoadingButton
+                button={
+                  <button type="submit" className="md:w-20">
+                    Post
+                  </button>
+                }
+                isLoading={isLoading}
+              />
             </div>
           </div>
         </div>

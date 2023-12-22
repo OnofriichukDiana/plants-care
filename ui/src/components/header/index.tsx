@@ -11,13 +11,19 @@ const Header = () => {
   return (
     <>
       {isShowHeader && (
-        <header className="header-container z-50">
+        <div
+          className="header-container z-50 "
+          style={{
+            boxShadow:
+              "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
+          }}
+        >
           <div className="flex justify-between items-center">
             <Logo />
             <Navigation />
             <UserInfo />
           </div>
-        </header>
+        </div>
       )}
     </>
   );

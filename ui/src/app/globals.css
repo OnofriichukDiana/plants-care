@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #2f6a48;
-  --secondary-color: #022510;
+  --primary-color: #022510;
+  --secondary-color: #2f6a48;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,21 +30,26 @@ body {
   );
   background-image: url("../../public/images/bg.jpg");
   position: relative;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 input {
   border-radius: 10px;
   padding: 6px;
   background: #ffffff;
-  border: 1px solid var(--secondary-color);
   outline: none;
-  box-shadow: 2px 4px 30px 0px #00452614;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 textarea {
   border-radius: 10px;
   border: 2px solid #00000014;
-  box-shadow: 2px 4px 30px 0px #00452614;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   padding: 1rem;
   resize: none;
   outline: none;
@@ -71,30 +76,54 @@ p {
 .h1 {
   font-weight: 900;
   font-size: 2.5rem;
-  line-height: 1, 5;
+  line-height: 1.5;
+  color: rgb(71 85 105);
 }
 .h4 {
   font-weight: 500;
-  font-size: 1.5rem;
-  line-height: 0.8;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: rgb(71 85 105);
 }
+
 .body1 {
   font-weight: 400;
-  font-size: 1.15rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.4;
   color: rgb(71 85 105);
 }
 
 .subtitle1 {
   font-weight: 300;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   line-height: 1.5;
 }
 
 .subtitle2 {
   font-weight: 300;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   line-height: 1.5;
+}
+
+/* Tablet and Larger Screens */
+@media screen and (min-width: 768px) {
+  .h4 {
+    font-size: 1.4rem;
+    line-height: 1.5;
+  }
+
+  .body1 {
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  .subtitle1 {
+    font-size: 1.1rem;
+  }
+
+  .subtitle2 {
+    font-size: 0.95rem;
+  }
 }
 
 .card {
@@ -104,19 +133,15 @@ p {
 }
 .main-card {
   margin: 0 auto;
-  margin-top: 10rem;
-  margin-bottom: 6rem;
+  margin-top: 6rem;
   box-shadow: 2px 4px 30px 0px #00064514;
   background-color: #ffffff;
   width: 80%;
   min-height: 87vh;
   border-radius: 16px;
-  padding: 2rem;
+  padding: 0.8rem;
 }
 
-.full-width {
-  width: 100%;
-}
 .link {
   color: var(--primary-color);
 }
@@ -125,9 +150,62 @@ p {
 }
 .avatar {
   border-radius: 50%;
+  padding: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.small {
+  width: 2rem;
+  height: 2rem;
+}
+
+.medium {
+  width: 3rem;
+  height: 3rem;
+}
+.large {
+  width: 4rem;
+  height: 4rem;
+}
+
+.icon {
+  color: rgb(71 85 105);
+}
+.icon-medium {
+  font-size: 25px;
+  color: rgb(71 85 105);
+}
+.icon-large {
+  color: rgb(71 85 105);
+  font-size: 35px;
+}
+
+@media screen and (min-width: 768px) {
+  .main-card {
+    padding: 2rem;
+    margin-top: 10rem;
+    margin-bottom: 6rem;
+  }
+
+  .icon-medium {
+    font-size: 30px;
+  }
+  .icon-large {
+    font-size: 50px;
+  }
+  .small {
+    width: 3rem;
+    height: 3rem;
+  }
+  .medium {
+    width: 4rem;
+    height: 4rem;
+  }
+  .large {
+    width: 5rem;
+    height: 5rem;
+  }
 }
 
 @keyframes scale {
@@ -143,4 +221,47 @@ p {
 
 .animate-scale {
   animation: scale 0.5s ease-in-out;
+}
+
+.loader {
+  position: relative;
+  display: flex;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  position: relative;
+  margin: 0 5px;
+  border-radius: 50%;
+  color: var(--primary-color);
+  background: currentColor;
+  box-shadow: 50px 0, -50px 0;
+  animation: left 1s infinite ease-in-out;
+}
+.loader:after {
+  color: var(--secondary-color);
+  animation: right 1.1s infinite ease-in-out;
+}
+
+@keyframes right {
+  0%,
+  100% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes left {
+  0%,
+  100% {
+    transform: translateY(10px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }

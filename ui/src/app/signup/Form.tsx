@@ -75,14 +75,14 @@ function Form() {
       {notification && <Notification message={notification.message} />}
       <form onSubmit={onSubmit}>
         <div className="flex justify-center">
-          <Avatar user={data} size={5} />
+          <Avatar user={data} size="large" />
         </div>
         <div className="mb-4">
           <label htmlFor="signup-name" className="subtitle1">
             Name
           </label>
           <input
-            className="full-width"
+            className="w-full"
             onChange={(e) => {
               setData({ ...data, name: e.target.value });
               setErrors({ ...errors, name: null });
@@ -101,7 +101,7 @@ function Form() {
             Email
           </label>
           <input
-            className="full-width"
+            className="w-full"
             onChange={(e) => {
               setData({ ...data, email: e.target.value });
               setErrors({ ...errors, email: null });
@@ -122,7 +122,7 @@ function Form() {
           </label>
           <div className="relative">
             <input
-              className="full-width"
+              className="w-full"
               onChange={(e) => {
                 setData({ ...data, password: e.target.value });
                 setErrors({ ...errors, password: null });

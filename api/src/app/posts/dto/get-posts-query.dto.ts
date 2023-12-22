@@ -3,6 +3,10 @@ import { IsOptional, IsIn, IsString, IsArray } from 'class-validator';
 export class GetPostsDto {
     @IsString()
     @IsOptional()
+    nameOrTags: string;
+
+    @IsString()
+    @IsOptional()
     page: string;
 
     @IsString()

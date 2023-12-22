@@ -1,14 +1,14 @@
 "use client";
 import { FaRegHeart } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
-import { PostItemType } from "./PostCard";
-import IconButton from "./IconButton";
+import { PostItemType } from ".";
+import IconButton from "../IconButton";
 import { FaRegCommentDots } from "react-icons/fa";
 import { CiSquarePlus } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { postLikesApi } from "@/api";
-import ImageGallery from "./imageGallery";
+import ImageGallery from "../imageGallery";
 import { useAuthStore } from "@/api/authStore";
 
 interface IProps {
@@ -19,7 +19,7 @@ function PostCardActions({ post }: IProps) {
   const router = useRouter();
   const { me } = useAuthStore();
   const [isLiked, setIsLiked] = useState(false);
-  const [countLikes, setCountLikes] = useState(post?.countLikes);
+  const [countLikes, setCountLikes] = useState(0);
   const [isImageGalleryOpen, setIsImageGalleryOpen] = useState(false);
 
   const isPostLiked = async () => {
@@ -31,6 +31,7 @@ function PostCardActions({ post }: IProps) {
 
   useEffect(() => {
     isPostLiked();
+    setCountLikes(post?.countLikes);
   }, [post, me]);
 
   const onLike = async () => {
@@ -83,9 +84,7 @@ function PostCardActions({ post }: IProps) {
           <div className="relative w-4 h-4 md:w-14 md:h-14  bg-slate-200 rotate-12 border border-slate-400"></div>
         )}
       </li>
-      {post?.postFiles[4] && (
-        <CiSquarePlus size={30} style={{ color: "grey" }} />
-      )}
+      {post?.postFiles[4] && <CiSquarePlus className="icon-medium" />}
     </ul>
   );
 
@@ -115,7 +114,13 @@ function PostCardActions({ post }: IProps) {
 
       <div className="flex">
         <IconButton
-          onClick={() => router.push(`/`)}
+          onClick={() =>
+            router.push(
+              `/posts/${post?.id}_${post?.tags
+                ?.map((tag) => tag.slice(1))
+                .join()}`
+            )
+          }
           icon={FaRegCommentDots}
           signature="Comments"
         />

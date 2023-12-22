@@ -4,7 +4,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { User } from 'src/entities/user/user.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { UserModule } from '../user/user.module';
+import { UsersModule } from '../users/users.module';
 
 const secretKey = process.env.SECRET_KEY || ' ';
 
@@ -18,7 +18,7 @@ const secretKey = process.env.SECRET_KEY || ' ';
             secret: secretKey,
             signOptions: { expiresIn: '60h' },
         }),
-        UserModule,
+        UsersModule,
     ],
 })
 export class AuthModule {}

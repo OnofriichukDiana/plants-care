@@ -1,10 +1,10 @@
 "use client";
 import { postsApi } from "@/api";
 import { useAuthStore } from "@/api/authStore";
-import IconButton from "@/components/IconButton";
+import LoadingButton from "@/components/LoadingButton";
 import Modal from "@/components/Modal";
 import Notification from "@/components/Notification";
-import { PostItemType } from "@/components/PostCard";
+import { PostItemType } from "@/components/postCard";
 import useNotification from "@/helpers/useNotification";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -18,9 +18,11 @@ const DeletePost = ({ post }: IProps) => {
   const router = useRouter();
   const { me } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { notification, showNotification } = useNotification();
 
   const onDelete = async () => {
+    setIsLoading(true);
     const res = await postsApi.delete(post.id);
     setIsModalOpen(false);
     if (res?.error) {
@@ -29,6 +31,7 @@ const DeletePost = ({ post }: IProps) => {
       router.push("/posts");
       router.refresh();
     }
+    setIsLoading(false);
   };
 
   return (
@@ -52,10 +55,18 @@ const DeletePost = ({ post }: IProps) => {
             </div>
           </Modal>
 
-          <IconButton
-            onClick={() => setIsModalOpen(true)}
-            icon={MdDeleteOutline}
-            signature="Delete this post"
+          <LoadingButton
+            button={
+              <button
+                type="button"
+                className="icon-button"
+                onClick={() => setIsModalOpen(true)}
+              >
+                <MdDeleteOutline size={20} style={{ color: "grey" }} />
+              </button>
+            }
+            isLoading={isLoading}
+            size={6}
           />
         </>
       )}

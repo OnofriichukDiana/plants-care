@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { VscSend } from "react-icons/vsc";
 import { IComment } from "./page";
 import { FaRegFileAlt } from "react-icons/fa";
-import LoadingIconButton from "@/components/LoadingIconButton";
+import LoadingButton from "@/components/LoadingButton";
 
 interface IProps {
   postId: number;
@@ -78,7 +78,7 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
   };
 
   return (
-    <div className="mt-5">
+    <div className="mt-10">
       {notification && <Notification message={notification.message} />}
       <form onSubmit={onSubmit}>
         <div className="mb-4 flex">
@@ -86,7 +86,7 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
           <div style={{ width: "90%" }} className="ml-4">
             <div className="relative">
               <textarea
-                className="full-width"
+                className="w-full"
                 placeholder={`${
                   !!parent?.id ? `Reply ${parent?.auth?.name}` : "Add comment"
                 }`}
@@ -94,13 +94,14 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
                   setComment({ ...comment, message: e.target.value });
                 }}
                 rows={2}
+                cols={12}
                 value={comment?.message || ""}
               />
               <UploadFiles
                 onChange={(newFiles) =>
                   setCommentFiles([...commentFiles, ...newFiles])
                 }
-                icon={<FaRegFileAlt size={25} color="gray" />}
+                icon={<FaRegFileAlt className="icon-medium" />}
                 styles="bottom-5 right-20"
                 accept="*/*"
               />
@@ -141,7 +142,14 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
                 </div>
               )}
               <div className="absolute bottom-3 right-3">
-                <LoadingIconButton isLoading={isLoading} icon={VscSend} />
+                <LoadingButton
+                  isLoading={isLoading}
+                  button={
+                    <button type="submit" className="icon-button">
+                      <VscSend className="icon-medium" />
+                    </button>
+                  }
+                />
               </div>
             </div>
           </div>

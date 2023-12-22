@@ -4,9 +4,10 @@ import { useAuthStore } from "@/api/authStore";
 import Avatar from "@/components/Avatar";
 import IconButton from "@/components/IconButton";
 import Modal from "@/components/Modal";
-import { PostItemType } from "@/components/PostCard";
+import { PostItemType } from "@/components/postCard";
+import Spiner from "@/components/Spinner";
+import UsersPreview from "@/components/UsersPreview";
 import formatDate from "@/helpers/formatDate";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
@@ -21,9 +22,6 @@ interface ILike {
   auth?: any;
   createdAt: string;
 }
-interface ILikes {
-  items: ILike[];
-}
 
 const PostLikes = ({ post }: IProps) => {
   const router = useRouter();
@@ -35,8 +33,10 @@ const PostLikes = ({ post }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [page, setPage] = useState<any>(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadLikes = async (page = 1) => {
+    setIsLoading(true);
     const res = await postLikesApi.getList({
       filters: { postId: post.id },
       page,
@@ -46,6 +46,7 @@ const PostLikes = ({ post }: IProps) => {
     setPage(res?.currentPage === res?.totalPages ? null : page);
     setLikes(page === 1 ? [...res?.items] : [...likes, ...res?.items]);
     setIsFetching(false);
+    setIsLoading(false);
   };
 
   const isPostLiked = async () => {
@@ -100,58 +101,7 @@ const PostLikes = ({ post }: IProps) => {
     if (isFetching && !!page) loadLikes(page + 1);
   }, [isFetching]);
 
-  const Users = () => {
-    const initStyles = "absolute avatar w-8 h-8";
-    return (
-      <ul className="ml-5 w-6 h-6 flex relative">
-        <li
-          className={`${initStyles} z-30 top-0 left-0`}
-          style={{ background: likes[0]?.auth?.avatarBackground }}
-        >
-          <Image
-            src={`/images/${likes[0]?.auth?.icon}.svg`}
-            alt="icon"
-            width={18}
-            height={18}
-          />
-        </li>
-        <li
-          className={`${initStyles} z-20 top-0 left-4`}
-          style={{
-            background: !!likes[1]
-              ? likes[1]?.auth?.avatarBackground
-              : "rgb(226 232 240)",
-          }}
-        >
-          {!!likes[1] && (
-            <Image
-              src={`/images/${likes[1]?.auth?.icon}.svg`}
-              alt="icon"
-              width={18}
-              height={18}
-            />
-          )}
-        </li>
-        <li
-          className={`${initStyles} top-0 left-8`}
-          style={{
-            background: !!likes[2]
-              ? likes[2]?.auth?.avatarBackground
-              : "rgb(226 232 240)",
-          }}
-        >
-          {!!likes[2] && (
-            <Image
-              src={`/images/${likes[1]?.auth?.icon}.svg`}
-              alt="icon"
-              width={18}
-              height={18}
-            />
-          )}
-        </li>
-      </ul>
-    );
-  };
+  const UsersIcon = () => <UsersPreview entitiesArray={likes} />;
 
   return (
     <>
@@ -167,6 +117,11 @@ const PostLikes = ({ post }: IProps) => {
             </li>
           ))}
         </ul>
+        {isLoading && (
+          <div className="flex justify-center">
+            <Spiner />
+          </div>
+        )}
       </Modal>
       <div className="flex items-center my-3.5">
         <IconButton
@@ -179,7 +134,7 @@ const PostLikes = ({ post }: IProps) => {
         {!!likes?.length && (
           <IconButton
             onClick={() => setIsModalOpen(true)}
-            icon={Users}
+            icon={UsersIcon}
             signature="View all"
           />
         )}

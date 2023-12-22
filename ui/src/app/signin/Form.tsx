@@ -71,7 +71,7 @@ function Form() {
             Email
           </label>
           <input
-            className="full-width"
+            className="w-full"
             onChange={(e) => {
               setData({ ...data, email: e.target.value });
               setErrors({ ...errors, email: null });
@@ -92,7 +92,7 @@ function Form() {
           </label>
           <div className="relative">
             <input
-              className="full-width"
+              className="w-full"
               onChange={(e) => {
                 setData({ ...data, password: e.target.value });
                 setErrors({ ...errors, password: null });

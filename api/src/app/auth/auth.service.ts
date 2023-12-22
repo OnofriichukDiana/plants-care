@@ -10,7 +10,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { compare } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { Auth_LoginDto } from './dto/auth-login.dto';
-import { UserService } from '../user/user.service';
+import { UsersService } from '../users/users.service';
 import { transform } from 'src/helpers/class-transformer';
 import { Auth_MeResponse } from './responses/me.response';
 import { Auth_SignInResponse } from './responses/auth-signin.response';
@@ -21,7 +21,7 @@ export class AuthService {
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         private jwtService: JwtService,
-        private userService: UserService,
+        private usersService: UsersService,
     ) {}
 
     async signup(createUserDto: CreateUserDto) {
@@ -34,7 +34,7 @@ export class AuthService {
             );
         }
 
-        const newUser = await this.userService.create(createUserDto);
+        const newUser = await this.usersService.create(createUserDto);
 
         const payload = { sub: newUser.id, username: newUser.name };
         const token = await this.jwtService.signAsync(payload);

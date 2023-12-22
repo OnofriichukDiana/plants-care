@@ -8,7 +8,7 @@ interface IProps {
 }
 
 const ImageGallery: React.FC<IProps> = ({ isOpen, onClose, images }) => {
-  const [selected, setSelected] = useState(images[0]);
+  const [selected, setSelected] = useState(images?.[0]);
   const [isAnimate, setIsAnimate] = useState(false);
 
   const animate = () => {

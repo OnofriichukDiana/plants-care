@@ -3,6 +3,8 @@ import { crud } from "./crud";
 
 export { authApi } from "./authApi";
 
+export const usersApi = crud("users");
+
 export const postsApi = crud("posts");
 export const postFilesApi = crud("post-files");
 export const postLikesApi = crud("post-likes", {

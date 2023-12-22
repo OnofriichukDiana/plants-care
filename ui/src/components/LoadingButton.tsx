@@ -2,27 +2,23 @@
 
 interface IProps {
   isLoading: boolean;
-  signature: string;
-  onClick?: () => void;
+  button: any;
+  size?: number;
 }
-const LoadingButton: React.FC<IProps> = ({ isLoading, signature, onClick }) => {
+const LoadingButton: React.FC<IProps> = ({
+  isLoading,
+  button: Button,
+  size = 10,
+}) => {
   const SpinningCircle = () => {
     return (
-      <div className="w-10 h-10 border-4 rounded-full border-neutral-400 border-solid border-t-transparent border-b-transparent animate-spin"></div>
+      <div
+        className={`w-${size} h-${size} border-4 rounded-full border-slate-600 border-solid border-t-transparent border-b-transparent animate-spin`}
+      ></div>
     );
   };
 
-  return (
-    <>
-      {isLoading ? (
-        <SpinningCircle />
-      ) : (
-        <button type="submit" className="w-20" onClick={onClick}>
-          {signature}
-        </button>
-      )}
-    </>
-  );
+  return <>{isLoading ? <SpinningCircle /> : Button}</>;
 };
 
 export default LoadingButton;

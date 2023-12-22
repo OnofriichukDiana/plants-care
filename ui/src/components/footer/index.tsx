@@ -1,9 +1,21 @@
 import Link from "next/link";
+import "./styles.css";
 
 const Footer = () => {
   return (
-    <footer>
-      <div></div>
+    <footer className="footer-container">
+      <p className="text-white">
+        Welcome to Green Vibes Community – a thriving space for plant
+        enthusiasts!
+      </p>
+      <p className="text-white">
+        Explore our community, connect with fellow plant lovers, and share your
+        passion for greenery. Whether you're a seasoned gardener or just
+        starting, there's a place for you here.
+      </p>
+      <p className="text-white">
+        &copy; 2023 Green Vibes. All rights reserved.
+      </p>
     </footer>
   );
 };

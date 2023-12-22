@@ -14,6 +14,8 @@ import Notification from "@/components/Notification";
 import CommentInput from "./CommentInput";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { MdClose } from "react-icons/md";
+import LoadingButton from "@/components/LoadingButton";
+import CommentLikes from "./CommentLikes";
 
 interface IProps {
   comment: IComment;
@@ -23,68 +25,39 @@ interface IProps {
 function CommentActions({ comment, postId }: IProps) {
   const router = useRouter();
   const { me } = useAuthStore();
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isShowCommentInput, setIsShowCommentInput] = useState(false);
-  const [countLikes, setCountLikes] = useState(comment?.countLikes);
   const { notification, showNotification } = useNotification();
   const ref = useOutsideClick<HTMLDivElement>(() =>
     setIsShowCommentInput(false)
   );
 
-  const isCommentLiked = async () => {
-    if (!!comment?.id && !!me) {
-      const _isLiked = await commentLikesApi.isLiked(comment.id);
-      setIsLiked(_isLiked);
-    }
-  };
-
-  useEffect(() => {
-    isCommentLiked();
-  }, [comment, me]);
-
-  const onLike = async () => {
-    if (!me) {
-      router.push("/signin");
-    } else {
-      if (isLiked) {
-        setIsLiked(false);
-        await commentLikesApi.delete(comment.id);
-        setCountLikes(comment?.countLikes - 1);
-      } else {
-        setIsLiked(true);
-        setCountLikes(comment?.countLikes + 1);
-        await commentLikesApi.create({ commentId: comment.id });
-      }
-    }
-  };
-
   const onDelete = async () => {
+    setIsLoading(true);
     const res = await postCommentsApi.delete(comment.id);
     if (res?.error) {
       showNotification(res.error.message, "error");
     } else {
       router.refresh();
     }
+    setIsLoading(false);
   };
 
   return (
     <div ref={ref}>
       {notification && <Notification message={notification.message} />}
-      <div className="flex justify-between items-center mt-2 bg-slate-50 p-2">
-        <div className="flex">
-          <IconButton
-            onClick={onLike}
-            icon={isLiked ? FcLike : FaRegHeart}
-            signature={isLiked ? "Eliminate" : "Like"}
-          />
-          <p className="ml-1">{countLikes}</p>
-        </div>
+      <div className="flex justify-between items-center mt-2 bg-slate-50 px-2 ">
+        <CommentLikes comment={comment} />
 
         {comment?.auth?.id === me?.id ? (
-          <IconButton
-            onClick={onDelete}
-            icon={MdDeleteOutline}
-            signature="Delete"
+          <LoadingButton
+            button={
+              <button type="button" className="icon-button" onClick={onDelete}>
+                <MdDeleteOutline size={20} style={{ color: "grey" }} />
+              </button>
+            }
+            isLoading={isLoading}
+            size={6}
           />
         ) : (
           <IconButton

@@ -1,24 +1,24 @@
 export const hexColors = [
-  "#2c3e50", // Midnight Blue
-  "#34495e", // Wet Asphalt
-  "#7f8c8d", // Concrete
-  "#95a5a6", // Alizarin
-  "#34495e", // Midnight Blue
-  "#2c3e50", // Wet Asphalt
-  "#555555", // Concrete
-  "#666666", // Alizarin
-  "#1f2c39", // Dark Charcoal
-  "#262626", // Graphite
-  "#1a1a1a", // Black
+  "#3498db", // Dodger Blue
+  "#2ecc71", // Emerald
+  "#e74c3c", // Alizarin Crimson
+  "#f39c12", // Sunflower
+  "#9b59b6", // Amethyst
+  "#3498db", // Dodger Blue
+  "#2ecc71", // Emerald
+  "#f39c12", // Sunflower
+  "#16a085", // Green Sea
+  "#e67e22", // Carrot Orange
+  "#1abc9c", // Turquoise
   "#2d2d2d", // Dark Gray
-  "#393939", // Gray
-  "#4d4d4d", // Dim Gray
-  "#5c5c5c", // Gray
-  "#474747", // Dim Gray
-  "#3a3a3a", // Davy's Gray
-  "#2e2e2e", // Charcoal
-  "#1f1f1f", // Jet Black
-  "#0d0d0d", // Black
+  "#9933ff", // Dark Violet
+  "#ff6666", // Dark Salmon
+  "#66ccff", // Sky Blue
+  "#667dff", // Dark Blue
+  "#ff99cc", // Pink
+  "#cc99ff", // Purple
+  "#66ffcc", // Light Green
+  "#ff6666", // Dark Salmon
 ];
 
 export function getRandomColor() {

@@ -34,8 +34,10 @@ export class PostsController {
         description: 'Get all posts',
         summary: 'Get posts',
     })
-    @ApiOkResponse({
-        // type: Comments_Pagination_Response,
+    @ApiQuery({
+        required: false,
+        name: 'nameOrTags',
+        type: 'string',
     })
     @ApiQuery({
         required: false,
@@ -65,6 +67,7 @@ export class PostsController {
             params.limit,
             params.sortBy,
             params.sortOrder,
+            params.nameOrTags,
         );
     }
 

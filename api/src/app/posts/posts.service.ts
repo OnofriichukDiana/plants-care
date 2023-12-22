@@ -26,12 +26,20 @@ export class PostsService {
         limit = '25',
         sortBy = 'createdAt',
         sortOrder: 'ASC' | 'DESC' = 'DESC',
+        nameOrTags,
     ) {
         const qb = this.postsRepository
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.user', 'user')
             .leftJoinAndSelect('post.postFiles', 'postFiles')
             .leftJoinAndSelect('postFiles.media', 'media');
+
+        if (!!nameOrTags) {
+            qb.where(
+                'EXISTS (SELECT 1 FROM unnest(post.tags) AS item WHERE item ILIKE :nameOrTags)',
+                { nameOrTags: `%${nameOrTags}%` },
+            );
+        }
 
         let currentPage = +page;
         const totalItems = await qb.getCount();

@@ -30,12 +30,17 @@ const IconButton: React.FC<IProps> = ({
         {iconName && (
           <Image src={iconName} alt={signature} width={30} height={30} />
         )}
-        {Icon && <Icon style={{ color: "grey" }} size={23} />}
+        {Icon && <Icon className="icon" size={23} />}
       </button>
       {isHovered && (
         <p
-          className="subtitle1 absolute right-7 w-100 p-2 bg-white rounded-md border-2"
-          style={{ width: "7vw" }}
+          className="subtitle2 w-max absolute p-2 bg-white rounded-md border-2"
+          style={{
+            boxShadow:
+              "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+            transform: "translateX(-50%)",
+            left: "50%",
+          }}
         >
           {signature}
         </p>

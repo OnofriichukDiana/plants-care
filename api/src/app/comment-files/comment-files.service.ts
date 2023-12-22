@@ -16,7 +16,7 @@ export class CommentFilesService {
     async create(file: Express.Multer.File, commentId: number) {
         const mediaId = await this.mediaService.upload(
             file,
-            MediaType.POST_FILES,
+            MediaType.COMMENT_FILES,
         );
         const commentFile = await this.commentFilesRepository.save({
             mediaId,

@@ -11,6 +11,8 @@ const AvatarIcons = [
   "greenery-nature",
   "plant-development",
   "botanical-nature",
+  "cherry",
+  "pepper",
 ];
 
 export default function getRandomAvatarIcon(): string {

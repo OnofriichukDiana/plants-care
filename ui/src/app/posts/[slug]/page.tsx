@@ -1,6 +1,6 @@
 import { postCommentsApi, postsApi } from "@/api";
 import Avatar from "@/components/Avatar";
-import getIdFromSlug from "@/helpers/getIdFromSlug";
+import { getIdFromSlug, getTagsFromSlug } from "@/helpers/getInfoFromSlug";
 import PostLikes from "./PostLikes";
 import DeletePost from "./DeletePost";
 import CommentInput from "./CommentInput";
@@ -36,14 +36,24 @@ const arrayToTree = (
   parentId: number | null = null,
   padding: number = 1
 ): Array<ReturnType> => {
-  return arr
-    .filter((item: IComment) => item?.parentId === parentId)
-    .map((child: IComment) => ({
-      ...child,
-      padding,
-      children: arrayToTree(arr, child.id, padding + 70),
-    }));
+  return !!arr?.length
+    ? arr
+        ?.filter((item: IComment) => item?.parentId === parentId)
+        ?.map((child: IComment) => ({
+          ...child,
+          padding,
+          children: arrayToTree(arr, child.id, padding + 70),
+        }))
+    : [];
 };
+
+export function generateMetadata({ params: { slug } }: IProps) {
+  return {
+    title: getTagsFromSlug(slug),
+    description:
+      "Join our vibrant plants community! Explore expert tips, connect with fellow enthusiasts, and cultivate your green thumb. Discover a supportive space for plant lovers to share triumphs, troubleshoot challenges, and grow together.",
+  };
+}
 
 const Page = async ({ params: { slug } }: IProps) => {
   const id = getIdFromSlug(slug);
@@ -104,8 +114,8 @@ const Page = async ({ params: { slug } }: IProps) => {
     <div className="dc min-h-screen">
       <div className="main-card">
         <div className="flex">
-          <Avatar user={post?.user} size={6} />
-          <div className="ml-3 flex justify-between w-full">
+          <Avatar user={post?.user} size="medium" />
+          <div className="ml-3 flex justify-between items-start w-full">
             <div className="w-full">
               <p className="body1 text-slate-600 mb-2">{post?.message}</p>
               {!post?.isShowTags && (
