@@ -3,7 +3,17 @@ import { crud } from "./crud";
 
 export { authApi } from "./authApi";
 
-export const usersApi = crud("users");
+export const usersApi = crud("users", {
+  updatePassword: (userId: number, entity: any) =>
+    api(
+      `/users/${userId}/update-password`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(entity),
+      },
+      (response: any) => response
+    ),
+});
 
 export const postsApi = crud("posts");
 export const postFilesApi = crud("post-files");
@@ -30,10 +40,10 @@ export const commentLikesApi = crud("comment-likes", {
     ),
 });
 
-export const userToUserApi = crud("user-to-user", {
+export const userToUserApi = crud("user-to-users", {
   isSubscribed: (userId: number) =>
     api(
-      `/comment-likes/${userId}/is-subscribed`,
+      `/user-to-users/${userId}/is-subscribed`,
       {
         method: "GET",
       },

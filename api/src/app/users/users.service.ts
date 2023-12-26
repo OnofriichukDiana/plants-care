@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+    ForbiddenException,
+    Injectable,
+    NotFoundException,
+    UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/entities/user/user.entity';
@@ -7,6 +12,8 @@ import { genSalt, hash } from 'bcryptjs';
 import { transform } from 'src/helpers/class-transformer';
 import { Users_Response } from './users.response';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { compare } from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -75,6 +82,37 @@ export class UsersService {
         await this.usersRepository.update(userId, updateUserDto);
         let user = await this.usersRepository.findOneBy({
             id: userId,
+        });
+
+        return transform(Users_Response, user);
+    }
+
+    async updatePassword(
+        userId: number,
+        authId: number,
+        updatePasswordDto: UpdatePasswordDto,
+    ) {
+        if (userId !== authId) {
+            throw new ForbiddenException();
+        }
+        const user = await this.usersRepository.findOneBy({
+            id: userId,
+        });
+
+        const isPasswordMatch = await compare(
+            updatePasswordDto.oldPassword,
+            user.password,
+        );
+
+        if (!isPasswordMatch) {
+            throw new UnauthorizedException(`Password is not correct`);
+        }
+        const salt = await genSalt(10);
+        const hashed = await hash(updatePasswordDto.newPassword, salt);
+
+        await this.usersRepository.update(userId, {
+            ...user,
+            password: hashed,
         });
 
         return transform(Users_Response, user);

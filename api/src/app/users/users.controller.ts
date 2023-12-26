@@ -8,6 +8,8 @@ import {
     Param,
     Get,
     Query,
+    Patch,
+    Req,
 } from '@nestjs/common';
 import {
     ApiBearerAuth,
@@ -21,6 +23,8 @@ import { Users_Response } from './users.response';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { GetUsersDto } from './dto/get-users-query.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { RequestType } from 'src/types';
 
 @Controller('users')
 @ApiTags('Users')
@@ -78,8 +82,26 @@ export class UsersController {
         type: Users_Response,
     })
     @HttpCode(HttpStatus.OK)
-    @Post(':userId')
+    @Patch(':userId')
     update(@Body() dto: UpdateUserDto, @Param('userId') userId: number) {
         return this.usersService.update(userId, dto);
+    }
+
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
+    @ApiOperation({
+        description: 'update user`s password',
+    })
+    @ApiOkResponse({
+        type: Users_Response,
+    })
+    @HttpCode(HttpStatus.OK)
+    @Patch(':userId/update-password')
+    updatePassword(
+        @Body() dto: UpdatePasswordDto,
+        @Param('userId') userId: number,
+        @Req() req: RequestType,
+    ) {
+        return this.usersService.updatePassword(+userId, +req.userId, dto);
     }
 }

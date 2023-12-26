@@ -2,7 +2,7 @@ import { usersApi } from "@/api";
 import Avatar from "@/components/Avatar";
 import { getIdFromSlug, getNameFromSlug } from "@/helpers/getInfoFromSlug";
 import Posts from "./Posts";
-import UserStatistic from "./UserStatistic";
+import Actions from "./Actions";
 
 interface IProps {
   params: { slug: string };
@@ -37,10 +37,10 @@ const Page = async ({ params: { slug } }: IProps) => {
           <div className="flex items-center">
             <Avatar user={user} size="large" />
 
-            <h1 className="h1 ml-2">{user?.name}</h1>
+            <h2 className="h1 ml-2">{user?.name}</h2>
           </div>
 
-          <UserStatistic user={user} />
+          <Actions user={user} />
         </main>
         <Posts userId={user?.id} />
       </div>

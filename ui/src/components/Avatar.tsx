@@ -30,7 +30,7 @@ const Avatar: React.FC<IProps> = ({
     <div className="relative">
       <Link
         href={`/user/${user?.id}_${user?.name}`}
-        className={`avatar ${size}`}
+        className={`avatar p-1 ${size}`}
         style={avatarStyle}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}

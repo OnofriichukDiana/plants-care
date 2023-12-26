@@ -23,47 +23,54 @@ import { UserToUsersService } from './user-to-users.service';
 import { RequestType } from 'src/types';
 import { UserToUsers_Response } from './user-to-users.response';
 import { CreateUserToUserDto } from './dto/create-user-to-user.dto';
+import { GetUserToUsersDto } from './dto/get-user-to-users-query.dto';
 
-@Controller('users')
-@ApiTags('Users')
+@Controller('user-to-users')
+@ApiTags('User`s subscribers')
 export class UserToUsersController {
     constructor(private readonly userToUsersService: UserToUsersService) {}
 
-    // @ApiOperation({
-    //     description: 'Get all users',
-    //     summary: 'Get users',
-    // })
-    // @ApiQuery({
-    //     required: false,
-    //     name: 'nameOrTags',
-    //     type: 'string',
-    // })
-    // @ApiQuery({
-    //     required: false,
-    //     name: 'page',
-    //     type: 'number',
-    // })
-    // @ApiQuery({
-    //     required: false,
-    //     name: 'limit',
-    //     type: 'number',
-    // })
-    // @HttpCode(HttpStatus.OK)
-    // @Get()
-    // findAll(@Query() params: GetUsersDto) {
-    //     return this.usersService.findAll(
-    //         params.page,
-    //         params.limit,
-    //         params.nameOrTags,
-    //     );
-    // }
+    @ApiOperation({
+        description: 'Get subscribers or subscriptions',
+        summary: 'Get subscribers or subscriptions',
+    })
+    @ApiQuery({
+        required: false,
+        name: 'subscriberId',
+        type: 'string',
+    })
+    @ApiQuery({
+        required: false,
+        name: 'subscriptionId',
+        type: 'string',
+    })
+    @ApiQuery({
+        required: false,
+        name: 'page',
+        type: 'number',
+    })
+    @ApiQuery({
+        required: false,
+        name: 'limit',
+        type: 'number',
+    })
+    @HttpCode(HttpStatus.OK)
+    @Get()
+    findAll(@Query() params: GetUserToUsersDto) {
+        return this.userToUsersService.findAll(
+            params.page,
+            params.limit,
+            params.subscriberId,
+            params.subscriptionId,
+        );
+    }
 
     @UseGuards(AuthGuard)
     @ApiOperation({
         description: 'is user subscribed',
     })
     @HttpCode(HttpStatus.OK)
-    @Get('/is-subscribed')
+    @Get(':userId/is-subscribed')
     async isSubscribed(
         @Param('userId') userId: number,
         @Req() req: RequestType,

@@ -46,7 +46,13 @@ function PostCard({ post, withoutAvatar }: IProps) {
             </Link>
 
             {!post?.isShowTags && (
-              <p className="subtitle2">{post?.tags?.join(", ")}</p>
+              <ul>
+                {post?.tags?.map((tag: string) => (
+                  <li className="inline subtitle2 link" key={tag}>
+                    <Link href={`/?filter=${tag.slice(1)}`}>{tag} </Link>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
           {!!post?.postFiles?.length && (

@@ -129,7 +129,7 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
                   setPostFiles([...postFiles, ...newFiles])
                 }
                 icon={<IoImagesOutline className="icon-large" />}
-                styles="bottom-3 right-5 md:bottom-5 md:right-3"
+                styles="absolute bottom-3 right-5 md:bottom-5 md:right-3"
               />
 
               {postFiles?.length > 0 && (

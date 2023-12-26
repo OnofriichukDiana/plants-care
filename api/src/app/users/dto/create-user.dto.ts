@@ -45,11 +45,4 @@ export class CreateUserDto {
     @IsOptional()
     @IsString()
     avatarUrl: string;
-
-    @ApiProperty({
-        description: 'User`s avatarBackground',
-    })
-    @IsOptional()
-    @IsString()
-    avatarBackground: string;
 }

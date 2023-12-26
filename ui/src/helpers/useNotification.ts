@@ -3,7 +3,7 @@ import { useState } from "react";
 const useNotification = () => {
   const [notification, setNotification] = useState<any>(null);
 
-  const showNotification = (message: any, type: any) => {
+  const showNotification = (message: string, type: string) => {
     setNotification({ message, type });
 
     setTimeout(() => {

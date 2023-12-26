@@ -17,6 +17,9 @@ function RootLayout({ children }: { children: React.ReactNode; params: any }) {
     <html lang="en">
       <body className={lora.className}>
         <header>
+          <h1 className="invisible">
+            Welcome to Grren vibes: Thrive with Confidence!
+          </h1>
           <Header />
         </header>
         <main>{children}</main>

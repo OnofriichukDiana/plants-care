@@ -121,7 +121,13 @@ const Page = async ({ params: { slug } }: IProps) => {
             <div className="w-full">
               <p className="body1 text-slate-600 mb-2">{post?.message}</p>
               {!post?.isShowTags && (
-                <p className="subtitle1 mb-2">{post?.tags?.join(", ")}</p>
+                <ul>
+                  {post?.tags?.map((tag: string) => (
+                    <li className="inline subtitle2 link" key={tag}>
+                      <Link href={`/?filter=${tag.slice(1)}`}>{tag} </Link>
+                    </li>
+                  ))}
+                </ul>
               )}
               {!!post?.postFiles?.length && (
                 <ul className="flex flex-wrap gap-4">

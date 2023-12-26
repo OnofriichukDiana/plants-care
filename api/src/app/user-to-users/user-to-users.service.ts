@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { User } from 'src/entities/user/user.entity';
 import { transform } from 'src/helpers/class-transformer';
@@ -10,15 +10,33 @@ import { UserToUsers_Response } from './user-to-users.response';
 @Injectable()
 export class UserToUsersService {
     constructor(
-        @InjectRepository(UserToUser)
+        @InjectDataSource()
         private readonly dateSource: DataSource,
     ) {}
 
-    async findAll(userId: string, page = '1', limit = '25') {
+    async findAll(
+        page = '1',
+        limit = '25',
+        subscriberId: string,
+        subscriptionId: string,
+    ) {
         const userToUserRepository = this.dateSource.getRepository(UserToUser);
 
         const qb = userToUserRepository.createQueryBuilder('userToUser');
-        // .leftJoinAndSelect('userToUser.auth', 'auth');
+
+        if (!!subscriberId) {
+            qb.leftJoinAndSelect('userToUser.subscription', 'subscription');
+            qb.where(`"userToUser"."subscriberId" = :subscriberId`, {
+                subscriberId: +subscriberId,
+            });
+        }
+
+        if (!!subscriptionId) {
+            qb.leftJoinAndSelect('userToUser.subscriber', 'subscriber');
+            qb.where(`"userToUser"."subscriptionId" = :subscriptionId`, {
+                subscriptionId: +subscriptionId,
+            });
+        }
 
         let currentPage = +page;
         const totalItems = await qb.getCount();
@@ -29,28 +47,24 @@ export class UserToUsersService {
         qb.skip(paginationSkip);
         qb.take(+limit);
 
-        // const userToUsers = await qb
-        //     .where(`"userToUser"."Id" = :postId`, {
-        //         postId: +postId,
-        //     })
-        //     .getMany();
+        const userToUsers = await qb.getMany();
 
-        // const items = postLikes.map((postLike) =>
-        //     transform(PostLikes_Response, postLike),
-        // );
+        const items = userToUsers.map((utu) =>
+            transform(UserToUsers_Response, utu),
+        );
 
-        // const result = {
-        //     items,
-        //     currentPage,
-        //     limit,
-        //     totalItems,
-        //     totalPages,
-        //     nextPage: totalPages - currentPage > 0 ? currentPage + 1 : null,
-        //     prevPage:
-        //         currentPage > 1 && totalPages > 1 ? currentPage - 1 : null,
-        // };
+        const result = {
+            items,
+            currentPage,
+            limit,
+            totalItems,
+            totalPages,
+            nextPage: totalPages - currentPage > 0 ? currentPage + 1 : null,
+            prevPage:
+                currentPage > 1 && totalPages > 1 ? currentPage - 1 : null,
+        };
 
-        // return result;
+        return result;
     }
 
     async isSubscribed(userId: number, authId: number) {

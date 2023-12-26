@@ -23,7 +23,7 @@ const UploadFiles = ({
   };
 
   return (
-    <div className={`absolute cursor-pointer ${styles}`} onClick={handleClick}>
+    <div className={`cursor-pointer ${styles || ""}`} onClick={handleClick}>
       <input
         className="opacity-0 h-0 w-0"
         type="file"

@@ -102,7 +102,7 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
                   setCommentFiles([...commentFiles, ...newFiles])
                 }
                 icon={<FaRegFileAlt className="icon-medium" />}
-                styles="bottom-5 right-20"
+                styles="absolute bottom-5 right-20"
                 accept="*/*"
               />
 

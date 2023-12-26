@@ -82,7 +82,7 @@ export const crud = (name: string, requests: any = {}) => {
           method: "PATCH",
           body: JSON.stringify(entity),
         },
-        (response: any) => response.data
+        (response: any) => response
       ),
 
     delete: (id: string | number) =>
