@@ -1,7 +1,5 @@
 "use client";
-
 import React, { useState } from "react";
-import Image from "next/image";
 import getRandomAvatarIcon from "@/helpers/avatarIcons";
 import Link from "next/link";
 import { getRandomColor } from "@/helpers/getRandomColor";
@@ -30,22 +28,28 @@ const Avatar: React.FC<IProps> = ({
     <div className="relative">
       <Link
         href={`/user/${user?.id}_${user?.name}`}
-        className={`avatar p-1 ${size}`}
+        className={`avatar ${!user?.avatarUrl && "p-2"} ${size}`}
         style={avatarStyle}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Image
-          src={`/images/${icon}.svg`}
-          alt="icon"
-          width={5}
-          height={5}
-          layout="responsive"
+        <img
+          src={user?.avatarUrl ? user?.avatarUrl : `/images/${icon}.svg`}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            overflow: "hidden",
+            borderRadius: "50%",
+          }}
         />
       </Link>
-      {isHovered && !withoutSignature && !!user?.name && (
+
+      {!!user?.name && (
         <p
-          className="subtitle2  w-max absolute p-2 bg-white rounded-md border-2"
+          className={`subtitle2 w-max absolute p-2 bg-white rounded-md border-2 modal ${
+            isHovered && !withoutSignature ? "show" : ""
+          }`}
           style={{
             boxShadow:
               "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
@@ -53,7 +57,7 @@ const Avatar: React.FC<IProps> = ({
             left: "50%",
           }}
         >
-          {user.name}
+          {user?.name}
         </p>
       )}
     </div>

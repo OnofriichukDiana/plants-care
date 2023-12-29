@@ -5,7 +5,7 @@ import { useAuthStore } from "@/api/authStore";
 import { userToUserApi } from "@/api";
 import { IoMdSettings } from "react-icons/io";
 import { useRouter } from "next/navigation";
-import useNotification from "@/helpers/useNotification";
+import useNotification from "@/hooks/useNotification";
 import Notification from "@/components/Notification";
 import Modal from "@/components/Modal";
 import Spiner from "@/components/Spinner";

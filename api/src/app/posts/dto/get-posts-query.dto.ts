@@ -7,6 +7,10 @@ export class GetPostsDto {
 
     @IsString()
     @IsOptional()
+    subscriberId: string;
+
+    @IsString()
+    @IsOptional()
     userId: string;
 
     @IsString()

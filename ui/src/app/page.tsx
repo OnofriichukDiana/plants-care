@@ -1,6 +1,6 @@
 "use server";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Search from "../components/Search";
 
 export default async function Main() {
@@ -8,8 +8,8 @@ export default async function Main() {
     <div className="dc min-h-screen ">
       <div className="main-card">
         <Search />
-        <div className="w-4/5 mx-auto">
-          <div className="flex justify-between items-center mb-7 md:mb-20">
+        <section className="w-4/6 mx-auto">
+          <div className="flex justify-between items-center mb-7 md:mb-10 ">
             <strong className="h4 w-1/2">
               Grow Together: Your Ultimate Plants Care Community!
             </strong>
@@ -20,10 +20,11 @@ export default async function Main() {
                 width={20}
                 height={20}
                 layout="responsive"
+                priority
               />
             </div>
           </div>
-          <div className="flex justify-between items-center mb-7 md:mb-20">
+          <div className="flex justify-between items-center mb-7 md:mb-10">
             <div className=" w-1/2">
               <Image
                 src={`/images/counting_stars.svg`}
@@ -37,7 +38,7 @@ export default async function Main() {
               Green Vibes Only: Unite with Plant Lovers Worldwide!
             </strong>
           </div>
-          <div className="flex justify-between items-center mb-7 md:mb-20">
+          <div className="flex justify-between items-center mb-7 md:mb-10">
             <strong className="h4 w-1/2">
               From Expert Tips to Plant Shops: Dive into Our Plants Care
               Collective!
@@ -53,7 +54,7 @@ export default async function Main() {
               />
             </div>
           </div>
-          <div className="flex justify-between items-center mb-7 md:mb-20">
+          <div className="flex justify-between items-center mb-7 md:mb-10">
             <div className=" w-1/2">
               <Image
                 src={`/images/hello.svg`}
@@ -67,7 +68,7 @@ export default async function Main() {
               Where Plants Thrive and Connections Bloom: Join Us Today!
             </strong>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

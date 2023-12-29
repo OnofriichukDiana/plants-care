@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useState } from "react";
 
 interface IProps {
@@ -32,19 +32,20 @@ const IconButton: React.FC<IProps> = ({
         )}
         {Icon && <Icon className="icon" size={23} />}
       </button>
-      {isHovered && (
-        <p
-          className="subtitle2 w-max absolute p-2 bg-white rounded-md border-2"
-          style={{
-            boxShadow:
-              "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-            transform: "translateX(-50%)",
-            left: "50%",
-          }}
-        >
-          {signature}
-        </p>
-      )}
+
+      <p
+        className={`z-40 subtitle2 w-max absolute p-2 bg-white rounded-md border-2 modal ${
+          isHovered ? "show" : ""
+        }`}
+        style={{
+          boxShadow:
+            "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+          transform: "translateX(-50%)",
+          left: "50%",
+        }}
+      >
+        {signature}
+      </p>
     </div>
   );
 };

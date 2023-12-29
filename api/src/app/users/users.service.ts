@@ -14,12 +14,15 @@ import { Users_Response } from './users.response';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { compare } from 'bcryptjs';
+import { MediaType } from '../media/media-type.enum';
+import { MediaService } from '../media/media.service';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
         private readonly usersRepository: Repository<User>,
+        private mediaService: MediaService,
     ) {}
 
     async findAll(page = '1', limit = '25', nameOrTags) {
@@ -80,7 +83,7 @@ export class UsersService {
 
     async update(userId: number, updateUserDto: UpdateUserDto) {
         await this.usersRepository.update(userId, updateUserDto);
-        let user = await this.usersRepository.findOneBy({
+        const user = await this.usersRepository.findOneBy({
             id: userId,
         });
 
@@ -116,5 +119,20 @@ export class UsersService {
         });
 
         return transform(Users_Response, user);
+    }
+
+    async updateAvatar(file: Express.Multer.File, userId: number) {
+        let user = await this.usersRepository.findOneBy({
+            id: userId,
+        });
+        if (!!user?.avatarBackground) {
+            await this.mediaService.findAndRemove(user?.avatarUrl);
+        }
+        const { url } = await this.mediaService.upload(file, MediaType.AVATARS);
+        await this.usersRepository.update(userId, {
+            avatarUrl: url,
+        });
+
+        return transform(Users_Response, { ...user, avatarUrl: url });
     }
 }

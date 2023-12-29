@@ -14,7 +14,7 @@ export class PostFilesService {
     ) {}
 
     async create(file: Express.Multer.File, postId: number) {
-        const mediaId = await this.mediaService.upload(
+        const { mediaId } = await this.mediaService.upload(
             file,
             MediaType.POST_FILES,
         );

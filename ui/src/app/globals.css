@@ -5,6 +5,12 @@
 :root {
   --primary-color: #022510;
   --secondary-color: #2f6a48;
+  --additional-color: rgb(71 85 105);
+
+  --border-color: rgb(209 213 219);
+
+  --main-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,23 +42,29 @@ body {
   justify-content: space-between;
 }
 
+textarea,
 input {
   border-radius: 10px;
-  padding: 6px;
-  background: #ffffff;
-  outline: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-}
-
-textarea {
-  border-radius: 10px;
   border: 2px solid #00000014;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  box-shadow: var(--main-shadow);
   padding: 1rem;
   resize: none;
   outline: none;
+  transition: border 0.5s, box-shadow 0.5s;
+}
+
+textarea:hover,
+input:hover {
+  border: 1px solid var(--border-color);
+  box-shadow: rgba(50, 50, 93, 0.1) 0px 8px 16px -6px,
+    rgba(0, 0, 0, 0.1) 0px 6px 6px -3px;
+}
+
+textarea:focus,
+input:focus {
+  border: 1px solid var(--border-color);
+  box-shadow: rgba(50, 50, 93, 0.1) 0px 8px 16px -6px,
+    rgba(0, 0, 0, 0.1) 0px 6px 6px -3px;
 }
 
 button,
@@ -63,6 +75,7 @@ button,
   padding: 10px;
   background-color: var(--primary-color);
   color: #ffffff;
+  transition: all 0.5s;
 }
 
 [type="button"]:disabled,
@@ -70,12 +83,25 @@ button,
 [type="submit"]:disabled {
   color: rgb(163 163 163);
 }
+[type="button"]:hover,
+[type="reset"]:hover,
+[type="submit"]:hover {
+  background-color: var(--secondary-color);
+  box-shadow: var(--main-shadow);
+}
 
 .icon-button {
-  color: var(--secondary-color);
+  color: var(--primary-color);
   padding: 0;
   background-color: transparent;
+  transition: color 0.5s ease-in-out;
 }
+
+.icon-button:hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
 p {
   color: var(--primary-color);
 }
@@ -83,7 +109,7 @@ p {
   font-weight: 900;
   font-size: 1.5rem;
   line-height: 1.5;
-  color: rgb(71 85 105);
+  color: var(--additional-color);
 }
 .h4 {
   font-weight: 500;
@@ -95,8 +121,8 @@ p {
 .body1 {
   font-weight: 400;
   font-size: 1rem;
-  line-height: 1.4;
-  color: rgb(71 85 105);
+  line-height: 1.2;
+  color: var(--additional-color);
 }
 
 .subtitle1 {
@@ -113,11 +139,14 @@ p {
 
 .link {
   color: var(--primary-color);
+  transition: color 0.5s;
 }
 .link:hover {
   color: var(--secondary-color);
 }
-
+.active-tab {
+  color: var(--secondary-color);
+}
 .active {
   color: var(--secondary-color);
   position: relative;
@@ -144,6 +173,17 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.modal {
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: visible;
 }
 
 /* Tablet and Larger Screens */
@@ -175,11 +215,21 @@ p {
   box-shadow: 2px 4px 30px 0px #00064514;
   background-color: #ffffff;
   border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  transition: border 0.2s, box-shadow 0.2s;
 }
+
+.card:hover {
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
 .main-card {
   margin: 0 auto;
   margin-top: 6rem;
-  box-shadow: 2px 4px 30px 0px #00064514;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   background-color: #ffffff;
   width: 80%;
   min-height: 87vh;
@@ -192,7 +242,14 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--border-color);
+  transition: box-shadow 0.5s;
 }
+
+.avatar:hover {
+  box-shadow: var(--main-shadow);
+}
+
 .small {
   width: 2rem;
   height: 2rem;
@@ -208,15 +265,23 @@ p {
 }
 
 .icon {
-  color: rgb(71 85 105);
+  color: var(--additional-color);
+  transition: color 0.5s;
 }
 .icon-medium {
   font-size: 25px;
-  color: rgb(71 85 105);
+  color: var(--additional-color);
+  transition: color 0.5s;
 }
 .icon-large {
-  color: rgb(71 85 105);
+  color: var(--additional-color);
   font-size: 35px;
+  transition: color 0.5s;
+}
+.icon:hover,
+.icon-medium:hover,
+.icon-large:hover {
+  color: var(--secondary-color);
 }
 
 @media screen and (min-width: 768px) {

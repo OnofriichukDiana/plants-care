@@ -1,15 +1,14 @@
 "use client";
 import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
-import eyeOff from "../../../public/images/eye-off.svg";
-import eye from "../../../public/images/eye.svg";
+import { IoIosEye } from "react-icons/io";
+import { IoIosEyeOff } from "react-icons/io";
 import { authApi } from "@/api/authApi";
 import createUserBodySchema from "../../helpers/validationSchemas/createUserBodySchema";
 import Avatar from "@/components/Avatar";
 import Notification from "@/components/Notification";
-import useNotification from "@/helpers/useNotification";
+import useNotification from "@/hooks/useNotification";
 import getRandomAvatarIcon from "@/helpers/avatarIcons";
-import Image from "next/image";
 import { getRandomColor } from "@/helpers/getRandomColor";
 
 type DataType = {
@@ -18,6 +17,7 @@ type DataType = {
   name?: string;
   email?: string;
   password?: string;
+  createdAt?: string;
 };
 type ErrorType = {
   name?: string | null;
@@ -133,13 +133,13 @@ function Form() {
             />
             <button
               onClick={updateShowPass}
-              className="icon-button absolute top-1.5 right-2"
+              className="icon-button absolute top-4 right-2"
               type="button"
             >
               {showPass ? (
-                <Image src={eye} alt="see" width={30} height={30} />
+                <IoIosEye className="icon-medium" />
               ) : (
-                <Image src={eyeOff} alt="hide" width={30} height={30} />
+                <IoIosEyeOff className="icon-medium" />
               )}
             </button>
           </div>

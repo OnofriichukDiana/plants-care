@@ -7,21 +7,23 @@ const Navigation = () => {
   const pathname = usePathname();
 
   return (
-    <menu>
-      {menu.map((item) => {
-        const isActive = pathname === item.path;
-        return (
-          <Link
-            key={item.path}
-            className={`link h4 mr-3 ${isActive ? "active" : ""}`}
-            id={item.path}
-            href={item.path}
-          >
-            {item.title}
-          </Link>
-        );
-      })}
-    </menu>
+    <nav>
+      <ul className="flex">
+        {menu.map((item) => {
+          const isActive = pathname === item.path;
+          return (
+            <li key={item.path}>
+              <Link
+                className={`link h4 mr-3 ${isActive ? "active" : ""}`}
+                href={item.path}
+              >
+                {item.title}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 };
 export default Navigation;

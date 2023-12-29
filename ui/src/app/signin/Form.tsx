@@ -2,13 +2,12 @@
 
 import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
-import useNotification from "@/helpers/useNotification";
+import useNotification from "@/hooks/useNotification";
 import signInUserBodySchema from "@/helpers/validationSchemas/signInUserBodySchema";
 import { authApi } from "@/api/authApi";
 import Notification from "@/components/Notification";
-import Image from "next/image";
-import eyeOff from "../../../public/images/eye-off.svg";
-import eye from "../../../public/images/eye.svg";
+import { IoIosEye } from "react-icons/io";
+import { IoIosEyeOff } from "react-icons/io";
 
 type DataType = {
   email?: string;
@@ -103,13 +102,13 @@ function Form() {
             />
             <button
               onClick={updateShowPass}
-              className="icon-button absolute top-2 right-2 "
+              className="icon-button absolute top-4 right-2 "
               type="button"
             >
               {showPass ? (
-                <Image src={eye} alt="see" width={30} height={30} />
+                <IoIosEye className="icon-medium" />
               ) : (
-                <Image src={eyeOff} alt="hide" width={30} height={30} />
+                <IoIosEyeOff className="icon-medium" />
               )}
             </button>
           </div>

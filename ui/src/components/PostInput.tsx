@@ -1,7 +1,7 @@
 "use client";
 import { FormEventHandler, useEffect, useState } from "react";
 import Notification from "@/components/Notification";
-import useNotification from "@/helpers/useNotification";
+import useNotification from "@/hooks/useNotification";
 import Avatar from "./Avatar";
 import { useAuthStore } from "@/api/authStore";
 import Checkbox from "./Checkbox";
@@ -40,7 +40,9 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<ErrorType>({});
 
-  let { me } = useAuthStore();
+  const [isShowAvatar, setIsShowAvatar] = useState(false);
+
+  const { me, isLoading: isMeLoading } = useAuthStore();
 
   useEffect(() => {
     const postData = sessionStorage.getItem("post");
@@ -49,6 +51,14 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
     }
     sessionStorage.clear();
   }, []);
+
+  useEffect(() => {
+    if (withoutAvatar || isMeLoading) {
+      setIsShowAvatar(false);
+    } else {
+      setIsShowAvatar(true);
+    }
+  }, [withoutAvatar, isMeLoading]);
 
   const validateBeforeWrite = async () => {
     try {
@@ -107,11 +117,13 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
   };
 
   return (
-    <div>
+    <section>
       {notification && <Notification message={notification.message} />}
       <form onSubmit={onSubmit}>
         <div className="mb-4 flex">
-          {!withoutAvatar && <Avatar user={me} size="medium" />}
+          <div className={!withoutAvatar ? "medium" : ""}>
+            {isShowAvatar && <Avatar user={me} size="medium" />}
+          </div>
           <div className="ml-4 w-full">
             <div className="relative">
               <textarea
@@ -208,7 +220,7 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
           </div>
         </div>
       </form>
-    </div>
+    </section>
   );
 }
 

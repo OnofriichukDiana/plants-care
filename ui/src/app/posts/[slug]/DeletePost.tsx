@@ -5,9 +5,9 @@ import LoadingButton from "@/components/LoadingButton";
 import Modal from "@/components/Modal";
 import Notification from "@/components/Notification";
 import { IPost } from "@/components/postCard";
-import useNotification from "@/helpers/useNotification";
+import useNotification from "@/hooks/useNotification";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
 interface IProps {
@@ -19,7 +19,14 @@ const DeletePost = ({ post }: IProps) => {
   const { me } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
   const { notification, showNotification } = useNotification();
+
+  useEffect(() => {
+    if (me?.id === post?.user?.id) {
+      setIsAuth(true);
+    }
+  }, [post?.user?.id, me?.id]);
 
   const onDelete = async () => {
     setIsLoading(true);
@@ -36,7 +43,7 @@ const DeletePost = ({ post }: IProps) => {
 
   return (
     <>
-      {me?.id === post?.user?.id && (
+      {isAuth && (
         <>
           {notification && <Notification message={notification.message} />}
           <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>

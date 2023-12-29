@@ -8,6 +8,7 @@ export class MeResponse extends PickType(UserResponse, [
     'email',
     'icon',
     'avatarUrl',
+    'countSubscriptions',
     'avatarBackground',
     'createdAt',
     'updatedAt',

@@ -83,7 +83,7 @@ const Page = async ({ params: { slug } }: IProps) => {
                   {nodes.parentId && (
                     <Link
                       href={`/users/${getUser(nodes).id}_${getUser(nodes).id}`}
-                      style={{ color: "#2f6a48" }}
+                      className="link"
                     >
                       @{getUser(nodes).name}
                     </Link>
@@ -117,7 +117,7 @@ const Page = async ({ params: { slug } }: IProps) => {
       <div className="main-card">
         <div className="flex">
           <Avatar user={post?.user} size="medium" />
-          <div className="ml-3 flex justify-between items-start w-full">
+          <article className="ml-3 flex justify-between items-start w-full">
             <div className="w-full">
               <p className="body1 text-slate-600 mb-2">{post?.message}</p>
               {!post?.isShowTags && (
@@ -151,7 +151,7 @@ const Page = async ({ params: { slug } }: IProps) => {
               </ul>
             </div>
             <DeletePost post={post} />
-          </div>
+          </article>
         </div>
       </div>
     </div>

@@ -10,9 +10,12 @@ import {
     Query,
     Patch,
     Req,
+    UseInterceptors,
+    UploadedFile,
 } from '@nestjs/common';
 import {
     ApiBearerAuth,
+    ApiConsumes,
     ApiOkResponse,
     ApiOperation,
     ApiQuery,
@@ -25,6 +28,7 @@ import { UsersService } from './users.service';
 import { GetUsersDto } from './dto/get-users-query.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { RequestType } from 'src/types';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 @ApiTags('Users')
@@ -103,5 +107,21 @@ export class UsersController {
         @Req() req: RequestType,
     ) {
         return this.usersService.updatePassword(+userId, +req.userId, dto);
+    }
+
+    @UseGuards(AuthGuard)
+    @ApiOperation({
+        summary: 'Update avatar',
+        description: 'Update user`s avatar',
+    })
+    @ApiOkResponse({
+        type: Users_Response,
+    })
+    @ApiConsumes('multipart/form-data')
+    @HttpCode(HttpStatus.CREATED)
+    @Post(':userId')
+    @UseInterceptors(FileInterceptor('file'))
+    create(@Req() req: RequestType, @UploadedFile() file: Express.Multer.File) {
+        return this.usersService.updateAvatar(file, +req.userId);
     }
 }

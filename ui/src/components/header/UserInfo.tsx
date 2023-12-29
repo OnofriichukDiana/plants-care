@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useAuthStore } from "../../api/authStore";
 import Avatar from "../Avatar";
 import { useRouter } from "next/navigation";
@@ -11,27 +10,32 @@ import logIn from "../../../public/images/log-in.svg";
 import IconButton from "../IconButton";
 
 const UserInfo = () => {
-  let { me, clearUser } = useAuthStore();
+  let { me, clearUser, isLoading, setIsLoading } = useAuthStore();
   const router = useRouter();
+
   const hendleLogOut = () => {
     Cookies.remove(process.env.NEXT_PUBLIC_AUTH_COOKIE || "");
     clearUser();
+    router.push("/signin");
   };
 
   const fetchMe = async () => {
+    setIsLoading(true);
     const res: any = await authApi.me();
     if (res?.id) {
       me = res;
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (!me) fetchMe();
+    const token = Cookies.get(process.env.NEXT_PUBLIC_AUTH_COOKIE || "");
+    if (!me && !!token) fetchMe();
   }, []);
 
   return (
     <div>
-      {!!me ? (
+      {!!me && !isLoading ? (
         <div className="flex items-center">
           <div className="mr-5">
             <Avatar user={me} />

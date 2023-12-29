@@ -103,9 +103,7 @@ export function fileData(file: any) {
     type: file.type,
     lastModified: file.lastModified,
     lastModifiedDate: file.lastModifiedDate,
-    preview: file?.lastModified
-      ? URL.createObjectURL(file)
-      : file?.media?.thumbnails?.small,
+    preview: file?.lastModified ? URL.createObjectURL(file) : file,
 
     format: fileFormat(file.name),
   };

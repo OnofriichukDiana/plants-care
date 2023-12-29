@@ -30,7 +30,7 @@ const FileCard: React.FC<IProps> = ({
 
   return (
     <div
-      className="card flex flex-col justify-between relative p-1 pt-4 m-1 h-fit"
+      className="card flex flex-col justify-between relative p-1 pt-4 m-1 h-fit z-40"
       onMouseEnter={() => setIsCardHover(true)}
       onMouseLeave={() => setIsCardHover(false)}
       style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}

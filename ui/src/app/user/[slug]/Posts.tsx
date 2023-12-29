@@ -43,12 +43,16 @@ const Posts = ({ userId }: IProps) => {
   }, []);
 
   useEffect(() => {
-    if (isFetching && !!page) loadPosts(page + 1);
+    if (isFetching && !!page && !!posts?.length) loadPosts(page + 1);
   }, [isFetching]);
 
   async function loadPosts(page = 1) {
     setIsLoading(true);
-    const res = await postsApi.getList({ page, limit: 8, filters: { userId } });
+    const res = await postsApi.getList({
+      page,
+      limit: 10,
+      filters: { userId },
+    });
     setPosts([...posts, ...res?.items]);
     setPage(res?.currentPage === res?.totalPages ? null : page);
     setIsFetching(false);
@@ -56,9 +60,10 @@ const Posts = ({ userId }: IProps) => {
   }
 
   return (
-    <main className="mt-10">
+    <div className="mt-10">
       {isAuth && <PostInput afterSave={loadPosts} withoutAvatar />}
       <section>
+        {!posts?.length && <p className="text-center">You have no posts yet</p>}
         <ul ref={scrollChecker} className="flex flex-wrap gap-6">
           {posts.map((post: IPost) => (
             <PostCard key={post.id} post={post} withoutAvatar />
@@ -70,7 +75,7 @@ const Posts = ({ userId }: IProps) => {
           <Spiner />
         </div>
       )}
-    </main>
+    </div>
   );
 };
 

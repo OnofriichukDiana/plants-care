@@ -72,9 +72,10 @@ export class AuthService {
     }
 
     async me(userId: number) {
-        let user = await this.userRepository.findOneBy({
+        const user = await this.userRepository.findOneBy({
             id: userId,
         });
+
         return transform(Auth_MeResponse, { me: user });
     }
 }

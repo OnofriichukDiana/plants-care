@@ -26,8 +26,9 @@ export class PostsService {
         limit = '25',
         sortBy = 'createdAt',
         sortOrder: 'ASC' | 'DESC' = 'DESC',
-        nameOrTags,
-        userId,
+        nameOrTags: string,
+        userId: number,
+        subscriberId: number,
     ) {
         const qb = this.postsRepository
             .createQueryBuilder('post')
@@ -43,6 +44,13 @@ export class PostsService {
         }
         if (!!userId) {
             qb.where('user.id = :userId', { userId });
+        }
+
+        if (!!subscriberId) {
+            qb.leftJoinAndSelect('user.subscriptions', 'subscription');
+            qb.where('subscription.subscriberId = :subscriberId', {
+                subscriberId,
+            });
         }
 
         let currentPage = +page;

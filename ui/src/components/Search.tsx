@@ -7,6 +7,7 @@ import { IoIosSearch } from "react-icons/io";
 import Spiner from "./Spinner";
 import { IUser } from "@/app/user/[slug]/page";
 import { useSearchParams } from "next/navigation";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 type FiltersType = {
   nameOrTags?: string | null;
@@ -20,6 +21,9 @@ function Search() {
   const [result, setResult] = useState<IUser[] | IPost[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState<FiltersType>({ nameOrTags });
+  const [isShowMenu, setIsShowMenu] = useState(false);
+
+  const ref = useOutsideClick<HTMLDivElement>(() => setIsShowMenu(false));
 
   async function loadData() {
     setIsLoading(true);
@@ -45,11 +49,12 @@ function Search() {
   useEffect(() => {
     if (!!filters?.nameOrTags?.trim()) {
       debouncedLoadFiltered();
+      setIsShowMenu(true);
     }
   }, [filters]);
 
   return (
-    <div className="relative w-full">
+    <section ref={ref} className="relative w-full">
       <div className="relative w-4/6 mx-auto mb-5 md:mb-10">
         <input
           onChange={(e) => {
@@ -63,7 +68,7 @@ function Search() {
         <IoIosSearch className="icon-medium absolute top-3 right-1.5" />
       </div>
 
-      {!!filters?.nameOrTags && (
+      {isShowMenu && (
         <div
           className="absolute w-full md:w-4/6 z-40 origin-center rounded-xl p-5 md:p-10 flex flex-col items-center bg-white"
           style={{
@@ -92,7 +97,7 @@ function Search() {
           {!result.length && <p className="body1">Not found</p>}
         </div>
       )}
-    </div>
+    </section>
   );
 }
 

@@ -1,7 +1,7 @@
 "use client";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import Notification from "@/components/Notification";
-import useNotification from "@/helpers/useNotification";
+import useNotification from "@/hooks/useNotification";
 import Avatar from "@/components/Avatar";
 import { useAuthStore } from "@/api/authStore";
 import UploadFiles from "@/components/UploadFiles";
@@ -18,12 +18,13 @@ import { FaRegFileAlt } from "react-icons/fa";
 import LoadingButton from "@/components/LoadingButton";
 
 interface IProps {
-  postId: number;
+  postId?: number;
   parent?: IComment;
   afterSave?: () => void;
 }
 
 function CommentInput({ postId, parent, afterSave }: IProps) {
+  const { me } = useAuthStore();
   const router = useRouter();
   const { notification, showNotification } = useNotification();
 
@@ -32,12 +33,10 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
     //@ts-ignore
     defaultComment.parentId = parent.id;
   }
-
+  const [isMeLoading, setIsMeLoading] = useState(true);
   const [comment, setComment] = useState<IComment>(defaultComment);
   const [commentFiles, setCommentFiles] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const { me } = useAuthStore();
 
   const saveFiles = async (commentId: number) => {
     await Promise.all(
@@ -56,7 +55,6 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
     if (!me) {
       router.push("/signin");
     } else {
-      console.log(comment, commentFiles);
       if (!!comment.message || !!commentFiles.length) {
         setIsLoading(true);
         const res = await postCommentsApi.create(comment);
@@ -68,7 +66,6 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
           }
           setCommentFiles([]);
           setComment(defaultComment);
-
           !!afterSave && afterSave();
           router.refresh();
         }
@@ -77,12 +74,19 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
     }
   };
 
+  useEffect(() => {
+    if (!!me) {
+      setIsMeLoading(false);
+    }
+    console.log(me);
+  }, [me]);
+
   return (
     <div className="mt-10">
       {notification && <Notification message={notification.message} />}
       <form onSubmit={onSubmit}>
         <div className="mb-4 flex">
-          <Avatar user={me} />
+          {!isMeLoading && <Avatar user={me} />}
           <div style={{ width: "90%" }} className="ml-4">
             <div className="relative">
               <textarea

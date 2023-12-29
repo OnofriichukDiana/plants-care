@@ -10,7 +10,7 @@ interface IProps {
 export interface IUser {
   id?: number;
   email?: string;
-  name: string;
+  name?: string;
   avatarUrl?: string;
   icon?: string;
   avatarBackground?: string;
@@ -33,7 +33,7 @@ const Page = async ({ params: { slug } }: IProps) => {
   return (
     <div className="dc min-h-screen">
       <div className="main-card">
-        <main className="flex items-center justify-between">
+        <section className="flex items-center justify-between">
           <div className="flex items-center">
             <Avatar user={user} size="large" />
 
@@ -41,7 +41,7 @@ const Page = async ({ params: { slug } }: IProps) => {
           </div>
 
           <Actions user={user} />
-        </main>
+        </section>
         <Posts userId={user?.id} />
       </div>
     </div>

@@ -41,6 +41,11 @@ export class PostsController {
     })
     @ApiQuery({
         required: false,
+        name: 'subscriberId',
+        type: 'string',
+    })
+    @ApiQuery({
+        required: false,
         name: 'userId',
         type: 'string',
     })
@@ -73,7 +78,8 @@ export class PostsController {
             params.sortBy,
             params.sortOrder,
             params.nameOrTags,
-            params.userId,
+            +params.userId,
+            +params.subscriberId,
         );
     }
 

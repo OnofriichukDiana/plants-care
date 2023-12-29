@@ -6,6 +6,11 @@ import { ConfigService } from '@nestjs/config';
 import { Media } from 'src/entities/media/media.entity';
 import { MediaType } from './media-type.enum';
 
+interface IRes {
+    mediaId: number;
+    url: string;
+}
+
 @Injectable()
 export class MediaService {
     private s3;
@@ -25,7 +30,7 @@ export class MediaService {
     async upload(
         data: Express.Multer.File,
         mediaType: MediaType,
-    ): Promise<number> {
+    ): Promise<IRes> {
         const Bucket = this.configService.get<string>('B2_BUCKET_NAME');
 
         const path = `${mediaType}/${data.originalname}`;
@@ -43,13 +48,33 @@ export class MediaService {
             size: data.size,
             mime: data.mimetype,
         });
-        return media.id;
+        return { mediaId: media.id, url: media.path };
     }
 
     async remove(mediaId: number): Promise<void> {
         const Bucket = this.configService.get<string>('B2_BUCKET_NAME');
         const media = await this.mediaRepository.findOneBy({
             id: mediaId,
+        });
+        if (media) {
+            try {
+                await this.s3
+                    .deleteObject({ Bucket, Key: media.path })
+                    .promise();
+
+                await this.mediaRepository.delete(media.id);
+                console.log('Successfully deleted from S3');
+            } catch (error) {
+                console.error('Error deleting object from S3:', error);
+                throw new Error('Failed to delete object from S3');
+            }
+        }
+    }
+
+    async findAndRemove(path: string): Promise<void> {
+        const Bucket = this.configService.get<string>('B2_BUCKET_NAME');
+        const media = await this.mediaRepository.findOneBy({
+            path,
         });
         if (media) {
             try {

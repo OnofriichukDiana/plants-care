@@ -72,7 +72,7 @@ export const crud = (name: string, requests: any = {}) => {
             "Content-Length": params["Content-Length"],
           },
         },
-        (response: any) => response.data
+        (response: any) => response
       ),
 
     update: (id: number | string, entity: any) =>

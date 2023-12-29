@@ -25,10 +25,10 @@ function PostCard({ post, withoutAvatar }: IProps) {
     !!post?.postFiles?.length && post?.message?.length > 120;
 
   return (
-    <li className="flex">
+    <li className="flex mb-2">
       {!withoutAvatar && <Avatar user={post?.user} />}
-      <div className="w-60 md:w-96 p-4 rounded-2xl mx-auto bg-white ml-2 card hover:shadow-lg hover:border hover:border-gray-300 flex flex-col justify-between">
-        <div className="flex flex-col justify-between h-full">
+      <div className="w-60 md:w-96 p-4 rounded-2xl mx-auto bg-white ml-2 card flex flex-col justify-between">
+        <article className="flex flex-col justify-between h-full">
           <div>
             <time className="subtitle2 text-neutral-400 mb-1">
               {formatDate(post.createdAt)}
@@ -69,7 +69,7 @@ function PostCard({ post, withoutAvatar }: IProps) {
               />
             </Link>
           )}
-        </div>
+        </article>
         <PostCardActions post={post} />
       </div>
     </li>

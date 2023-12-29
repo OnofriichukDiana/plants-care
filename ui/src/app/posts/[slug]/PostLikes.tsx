@@ -69,6 +69,7 @@ const PostLikes = ({ post }: IProps) => {
         true
       );
     }
+    console.log(me);
   }, [post, me]);
 
   const onLike = async () => {
