@@ -56,14 +56,12 @@ input {
 
 textarea:hover,
 input:hover {
-  border: 1px solid var(--border-color);
   box-shadow: rgba(50, 50, 93, 0.1) 0px 8px 16px -6px,
     rgba(0, 0, 0, 0.1) 0px 6px 6px -3px;
 }
 
 textarea:focus,
 input:focus {
-  border: 1px solid var(--border-color);
   box-shadow: rgba(50, 50, 93, 0.1) 0px 8px 16px -6px,
     rgba(0, 0, 0, 0.1) 0px 6px 6px -3px;
 }
