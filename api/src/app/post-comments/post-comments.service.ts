@@ -71,27 +71,27 @@ export class PostCommentsService {
         const postRepository = this.dateSource.getRepository(Post);
         const postComment = await postCommentRepository.findOne({
             where: { id },
-            relations: { commentFiles: true, post: true },
+            relations: { commentFiles: true, post: true, children: true },
         });
 
-        if (!postComment) throw new NotFoundException();
+        if (!postComment) {
+            throw new NotFoundException();
+        }
 
-        const currentPost = await postRepository.findOne({
-            where: {
-                id: postComment.postId,
-            },
-        });
-
-        await postRepository.update(currentPost.id, {
-            countComments: currentPost.countComments - 1,
-        });
-
-        if (postComment.authId !== authId || postComment.post.userId === authId)
+        if (postComment.authId !== authId && postComment.post.userId !== authId)
             throw new ForbiddenException('You have no access to this resource');
 
         for (const file of postComment.commentFiles) {
             await this.commentFilesService.delete(file.id);
         }
+
+        for (const child of postComment.children) {
+            await this.remove(child.id, authId);
+        }
+
+        await postRepository.update(postComment.post.id, {
+            countComments: postComment.post.countComments - 1,
+        });
 
         await postCommentRepository.delete({ id });
     }

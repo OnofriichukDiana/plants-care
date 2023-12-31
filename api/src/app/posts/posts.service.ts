@@ -111,15 +111,10 @@ export class PostsService {
             relations: { postFiles: true, postComments: true },
         });
 
-        if (!post) throw new NotFoundException();
-        console.log(
-            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
-            post.userId,
-            userId,
-            typeof post.userId,
-            typeof userId,
-            post.userId !== userId,
-        );
+        if (!post) {
+            throw new NotFoundException();
+        }
+
         if (post.userId !== userId)
             throw new ForbiddenException('You have no access to this resource');
 
@@ -128,7 +123,9 @@ export class PostsService {
         }
 
         for (const comment of post.postComments) {
-            await this.postCommentsService.remove(comment.id, userId);
+            if (comment.parentId === null) {
+                await this.postCommentsService.remove(comment.id, userId);
+            }
         }
 
         await this.postsRepository.delete({ id });

@@ -17,6 +17,10 @@ import { postFilesApi, postsApi } from "@/api";
 import { useRouter } from "next/navigation";
 import LoadingButton from "./LoadingButton";
 
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
 type DataType = {
   message?: string;
   isShowTags: boolean;
@@ -39,9 +43,7 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
   const [postFiles, setPostFiles] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<ErrorType>({});
-
   const [isShowAvatar, setIsShowAvatar] = useState(false);
-
   const { me, isLoading: isMeLoading } = useAuthStore();
 
   useEffect(() => {
@@ -126,16 +128,16 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
           </div>
           <div className="ml-4 w-full">
             <div className="relative">
-              <textarea
-                className="w-full"
-                placeholder="Write a post"
-                onChange={(e) => {
-                  setPost({ ...post, message: e.target.value });
-                }}
-                rows={4}
-                cols={20}
+              <ReactQuill
+                className="w-full text-quill body1"
                 value={post?.message || ""}
+                onChange={(e) => setPost({ ...post, message: e })}
+                theme="snow"
+                modules={{
+                  toolbar: false,
+                }}
               />
+
               <UploadFiles
                 onChange={(newFiles) =>
                   setPostFiles([...postFiles, ...newFiles])

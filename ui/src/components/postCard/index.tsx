@@ -37,11 +37,15 @@ function PostCard({ post, withoutAvatar }: IProps) {
                 ?.map((tag) => tag.slice(1))
                 .join()}`}
             >
-              <p className="subtitle1 text-zinc-600 max-h-80 overflow-hidden">
-                {isOverflowing
-                  ? `${post.message.slice(0, 50)}...`
-                  : post.message}
-              </p>
+              <div
+                className="subtitle1 text-zinc-600 max-h-80 overflow-hidden"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    (isOverflowing
+                      ? `<div>${post.message.slice(0, 50)}...</div>`
+                      : post.message) || "<p></p>",
+                }}
+              ></div>
             </Link>
 
             {!post?.isShowTags && (

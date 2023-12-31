@@ -117,9 +117,14 @@ const Page = async ({ params: { slug } }: IProps) => {
       <div className="main-card">
         <div className="flex">
           <Avatar user={post?.user} size="medium" />
+
           <article className="ml-3 flex justify-between items-start w-full">
             <div className="w-full">
-              <p className="body1 text-slate-600 mb-2">{post?.message}</p>
+              <div
+                className="body1 text-slate-600 mb-2"
+                dangerouslySetInnerHTML={{ __html: post?.message || "<p></p>" }}
+              ></div>
+
               {!post?.isShowTags && (
                 <ul>
                   {post?.tags?.map((tag: string) => (
@@ -129,6 +134,7 @@ const Page = async ({ params: { slug } }: IProps) => {
                   ))}
                 </ul>
               )}
+
               {!!post?.postFiles?.length && (
                 <ul className="flex flex-wrap gap-4">
                   {post?.postFiles?.map((file: any) => (
@@ -143,8 +149,11 @@ const Page = async ({ params: { slug } }: IProps) => {
                   ))}
                 </ul>
               )}
+
               <PostLikes post={post} />
+
               <CommentInput postId={post.id} />
+
               <ul className="w-full mt-8">
                 {tree?.length > 0 &&
                   tree.map((comment: ReturnType) => renderTree(comment))}
