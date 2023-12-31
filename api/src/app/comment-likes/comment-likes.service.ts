@@ -78,8 +78,10 @@ export class CommentLikesService {
             authId,
             ...createCommentLikesDto,
         });
-        const currentComment = await commentRepository.findOneBy({
-            id: createCommentLikesDto.commentId,
+        const currentComment = await commentRepository.findOne({
+            where: {
+                id: createCommentLikesDto.commentId,
+            },
         });
 
         await commentRepository.update(currentComment.id, {
@@ -96,8 +98,10 @@ export class CommentLikesService {
 
         await commentLikesRepository.delete({ authId, commentId });
 
-        const currentComment = await commentRepository.findOneBy({
-            id: commentId,
+        const currentComment = await commentRepository.findOne({
+            where: {
+                id: commentId,
+            },
         });
 
         await commentRepository.update(currentComment.id, {

@@ -25,8 +25,10 @@ export class AuthService {
     ) {}
 
     async signup(createUserDto: CreateUserDto) {
-        const exsistedUser = await this.userRepository.findOneBy({
-            email: createUserDto.email,
+        const exsistedUser = await this.userRepository.findOne({
+            where: {
+                email: createUserDto.email,
+            },
         });
         if (exsistedUser) {
             throw new BadRequestException(
@@ -46,8 +48,10 @@ export class AuthService {
     }
 
     async signin(AuthLogInDto: Auth_LoginDto) {
-        let user = await this.userRepository.findOneBy({
-            email: AuthLogInDto.email,
+        let user = await this.userRepository.findOne({
+            where: {
+                email: AuthLogInDto.email,
+            },
         });
         if (!user) {
             throw new BadRequestException(`User with provided email not found`);
@@ -72,8 +76,10 @@ export class AuthService {
     }
 
     async me(userId: number) {
-        const user = await this.userRepository.findOneBy({
-            id: userId,
+        const user = await this.userRepository.findOne({
+            where: {
+                id: userId,
+            },
         });
 
         return transform(Auth_MeResponse, { me: user });

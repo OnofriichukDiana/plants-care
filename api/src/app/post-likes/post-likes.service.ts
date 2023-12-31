@@ -75,8 +75,10 @@ export class PostLikesService {
             authId,
             ...createPostLikesDto,
         });
-        const currentPost = await postRepository.findOneBy({
-            id: createPostLikesDto.postId,
+        const currentPost = await postRepository.findOne({
+            where: {
+                id: createPostLikesDto.postId,
+            },
         });
 
         await postRepository.update(currentPost.id, {
@@ -92,8 +94,10 @@ export class PostLikesService {
 
         await postLikesRepository.delete({ authId, postId });
 
-        const currentPost = await postRepository.findOneBy({
-            id: postId,
+        const currentPost = await postRepository.findOne({
+            where: {
+                id: postId,
+            },
         });
 
         await postRepository.update(currentPost.id, {

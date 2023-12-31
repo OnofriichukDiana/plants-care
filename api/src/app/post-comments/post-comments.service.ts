@@ -53,8 +53,10 @@ export class PostCommentsService {
             ...createPostCommentDto,
         });
 
-        const currentPost = await postRepository.findOneBy({
-            id: createPostCommentDto.postId,
+        const currentPost = await postRepository.findOne({
+            where: {
+                id: createPostCommentDto.postId,
+            },
         });
 
         await postRepository.update(currentPost.id, {
@@ -74,8 +76,10 @@ export class PostCommentsService {
 
         if (!postComment) throw new NotFoundException();
 
-        const currentPost = await postRepository.findOneBy({
-            id: postComment.postId,
+        const currentPost = await postRepository.findOne({
+            where: {
+                id: postComment.postId,
+            },
         });
 
         await postRepository.update(currentPost.id, {

@@ -83,8 +83,10 @@ export class UsersService {
 
     async update(userId: number, updateUserDto: UpdateUserDto) {
         await this.usersRepository.update(userId, updateUserDto);
-        const user = await this.usersRepository.findOneBy({
-            id: userId,
+        const user = await this.usersRepository.findOne({
+            where: {
+                id: userId,
+            },
         });
 
         return transform(Users_Response, user);
@@ -98,8 +100,10 @@ export class UsersService {
         if (userId !== authId) {
             throw new ForbiddenException();
         }
-        const user = await this.usersRepository.findOneBy({
-            id: userId,
+        const user = await this.usersRepository.findOne({
+            where: {
+                id: userId,
+            },
         });
 
         const isPasswordMatch = await compare(
@@ -122,8 +126,10 @@ export class UsersService {
     }
 
     async updateAvatar(file: Express.Multer.File, userId: number) {
-        let user = await this.usersRepository.findOneBy({
-            id: userId,
+        let user = await this.usersRepository.findOne({
+            where: {
+                id: userId,
+            },
         });
         if (!!user?.avatarUrl) {
             await this.mediaService.findAndRemove(user?.avatarUrl);

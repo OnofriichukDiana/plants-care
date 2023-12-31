@@ -92,12 +92,16 @@ export class UserToUsersService {
             ...createUserToUserDto,
         });
 
-        const subscriber = await userRepository.findOneBy({
-            id: authId,
+        const subscriber = await userRepository.findOne({
+            where: {
+                id: authId,
+            },
         });
 
-        const subscription = await userRepository.findOneBy({
-            id: createUserToUserDto.subscriptionId,
+        const subscription = await userRepository.findOne({
+            where: {
+                id: createUserToUserDto.subscriptionId,
+            },
         });
 
         await userRepository.update(subscriber.id, {
@@ -120,12 +124,16 @@ export class UserToUsersService {
             subscriptionId: userId,
         });
 
-        const subscriber = await userRepository.findOneBy({
-            id: authId,
+        const subscriber = await userRepository.findOne({
+            where: {
+                id: authId,
+            },
         });
 
-        const subscription = await userRepository.findOneBy({
-            id: userId,
+        const subscription = await userRepository.findOne({
+            where: {
+                id: userId,
+            },
         });
 
         await userRepository.update(subscriber.id, {

@@ -53,8 +53,10 @@ export class MediaService {
 
     async remove(mediaId: number): Promise<void> {
         const Bucket = this.configService.get<string>('B2_BUCKET_NAME');
-        const media = await this.mediaRepository.findOneBy({
-            id: mediaId,
+        const media = await this.mediaRepository.findOne({
+            where: {
+                id: mediaId,
+            },
         });
         if (media) {
             try {
