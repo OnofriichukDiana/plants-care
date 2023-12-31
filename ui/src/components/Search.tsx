@@ -94,7 +94,7 @@ function Search() {
                 </div>
               )
             )}
-          {!result.length && <p className="body1">Not found</p>}
+          {!result.length && !isLoading && <p className="body1">Not found</p>}
         </div>
       )}
     </section>

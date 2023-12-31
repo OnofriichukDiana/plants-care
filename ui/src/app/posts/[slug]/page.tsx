@@ -113,7 +113,7 @@ const Page = async ({ params: { slug } }: IProps) => {
   };
 
   return (
-    <div className="dc min-h-screen">
+    <div className="min-h-screen">
       <div className="main-card">
         <div className="flex">
           <Avatar user={post?.user} size="medium" />
@@ -134,7 +134,7 @@ const Page = async ({ params: { slug } }: IProps) => {
                   {post?.postFiles?.map((file: any) => (
                     <li key={file?.id}>
                       <img
-                        className="w-48 h-48 md:w-96 md:h-96 "
+                        className="w-full h-full md:w-96 md:h-96"
                         src={file?.media?.path}
                         alt={post?.tags[0]}
                         style={{ objectFit: "cover" }}

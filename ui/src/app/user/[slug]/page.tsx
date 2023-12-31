@@ -31,7 +31,7 @@ const Page = async ({ params: { slug } }: IProps) => {
   const user = await usersApi.getOne(id);
 
   return (
-    <div className="dc min-h-screen">
+    <div className="min-h-screen">
       <div className="main-card">
         <section className="flex items-center justify-between">
           <div className="flex items-center">

@@ -64,7 +64,7 @@ const Page = () => {
   }, [isFetching]);
 
   return (
-    <div className="dc min-h-screen">
+    <div className="min-h-screen">
       <div className="main-card">
         <PostInput afterSave={loadPosts} />
         <section>
@@ -72,7 +72,7 @@ const Page = () => {
             <nav className="flex flex-col items-center mb-7 border-b border-gray-300">
               <ul className="flex">
                 <li
-                  className={`link h4 mr-3 cursor-pointer ${
+                  className={`link body2 mr-3 cursor-pointer ${
                     currentTab === "Subscriptions" ? "active-tab" : ""
                   }`}
                   onClick={() => {
@@ -83,7 +83,7 @@ const Page = () => {
                   Subscriptions
                 </li>
                 <li
-                  className={`link h4 mr-3 cursor-pointer ${
+                  className={`link body2 mr-3 cursor-pointer ${
                     currentTab === "Newest" ? "active-tab" : ""
                   }`}
                   onClick={() => {
@@ -96,7 +96,7 @@ const Page = () => {
               </ul>
             </nav>
           )}
-          {!posts?.length && isLoading && !isMeLoading && (
+          {!posts?.length && !isLoading && !isMeLoading && (
             <p className="text-center">Nothing not found</p>
           )}
           <ul ref={scrollChecker} className="flex flex-wrap gap-6">

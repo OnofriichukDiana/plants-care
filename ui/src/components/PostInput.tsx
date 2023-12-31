@@ -127,7 +127,7 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
           <div className="ml-4 w-full">
             <div className="relative">
               <textarea
-                className="md:w-full"
+                className="w-full"
                 placeholder="Write a post"
                 onChange={(e) => {
                   setPost({ ...post, message: e.target.value });
@@ -201,7 +201,7 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
                   )}
                 </div>
                 <Checkbox
-                  label="Hige tags"
+                  label="Hide tags"
                   checked={post.isShowTags}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setPost({ ...post, isShowTags: e.currentTarget.checked })
@@ -210,7 +210,7 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
               </div>
               <LoadingButton
                 button={
-                  <button type="submit" className="md:w-20">
+                  <button type="submit" className="md:w-16">
                     Post
                   </button>
                 }

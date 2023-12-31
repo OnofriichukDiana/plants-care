@@ -54,7 +54,7 @@ function PostCardActions({ post }: IProps) {
     <ul className="flex items-center relative">
       <li>
         <img
-          className="z-30 relative w-4 h-4 md:w-14 md:h-14  border border-slate-400"
+          className="z-30 relative w-6 h-6 md:w-12 md:h-12  border border-slate-400"
           src={post?.postFiles[1]?.media?.path}
           alt={post?.tags[0]}
           style={{ objectFit: "cover", transform: "rotate(-12deg)" }}
@@ -63,25 +63,25 @@ function PostCardActions({ post }: IProps) {
       <li>
         {post?.postFiles[2] ? (
           <img
-            className="absolute z-20 top-0 left-8 w-4 h-4 md:w-14 md:h-14 border-1 border-slate-400"
+            className="absolute z-20 top-0 left-8 w-6 h-6 md:w-12 md:h-12 border-1 border-slate-400"
             src={post?.postFiles[2]?.media?.path}
             alt={post?.tags[0]}
             style={{ objectFit: "cover" }}
           />
         ) : (
-          <div className="absolute z-20 top-0 left-8 w-4 h-4 md:w-14 md:h-14  bg-slate-200 border border-slate-400"></div>
+          <div className="absolute z-20 top-0 left-8 w-6 h-6 md:w-12 md:h-12  bg-slate-200 border border-slate-400"></div>
         )}
       </li>
       <li>
         {post?.postFiles[3] ? (
           <img
-            className="relative w-4 h-4 md:w-14 md:h-14 border border-slate-400"
+            className="relative w-6 h-6 md:w-14 md:h-14 border border-slate-400"
             src={post?.postFiles[3]?.media?.path}
             alt={post?.tags[0]}
             style={{ objectFit: "cover", transform: "rotate(12deg)" }}
           />
         ) : (
-          <div className="relative w-4 h-4 md:w-14 md:h-14  bg-slate-200 rotate-12 border border-slate-400"></div>
+          <div className="relative w-6 h-6 md:w-12 md:h-12  bg-slate-200 rotate-12 border border-slate-400"></div>
         )}
       </li>
       {post?.postFiles[4] && <CiSquarePlus className="icon-medium" />}
@@ -89,7 +89,7 @@ function PostCardActions({ post }: IProps) {
   );
 
   return (
-    <div className="h-10 md:h-20 flex justify-between items-center mt-2 bg-slate-50 p-3">
+    <div className="h-10 md:h-16 flex justify-between items-center mt-2 bg-slate-50 p-3">
       <ImageGallery
         isOpen={isImageGalleryOpen}
         onClose={() => setIsImageGalleryOpen(false)}

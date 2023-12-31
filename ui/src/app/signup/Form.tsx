@@ -133,7 +133,7 @@ function Form() {
             />
             <button
               onClick={updateShowPass}
-              className="icon-button absolute top-4 right-2"
+              className="icon-button absolute top-2 right-2"
               type="button"
             >
               {showPass ? (

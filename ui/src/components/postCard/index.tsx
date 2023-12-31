@@ -27,7 +27,7 @@ function PostCard({ post, withoutAvatar }: IProps) {
   return (
     <li className="flex mb-2">
       {!withoutAvatar && <Avatar user={post?.user} />}
-      <div className="w-60 md:w-96 p-4 rounded-2xl mx-auto bg-white ml-2 card flex flex-col justify-between">
+      <div className="w-72 p-4 rounded-2xl mx-auto bg-white ml-2 card flex flex-col justify-between">
         <article className="flex flex-col justify-between h-full">
           <div>
             <time className="subtitle2 text-neutral-400 mb-1">
@@ -62,7 +62,7 @@ function PostCard({ post, withoutAvatar }: IProps) {
                 .join()}`}
             >
               <img
-                className="w-48 h-48 md:w-96 md:h-96"
+                className="w-72 h-72"
                 src={post?.postFiles[0]?.media?.path}
                 alt={post?.tags[0]}
                 style={{ objectFit: "cover" }}

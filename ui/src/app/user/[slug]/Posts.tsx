@@ -63,7 +63,9 @@ const Posts = ({ userId }: IProps) => {
     <div className="mt-10">
       {isAuth && <PostInput afterSave={loadPosts} withoutAvatar />}
       <section>
-        {!posts?.length && <p className="text-center">You have no posts yet</p>}
+        {!posts?.length && !isLoading && (
+          <p className="text-center">You have no posts yet</p>
+        )}
         <ul ref={scrollChecker} className="flex flex-wrap gap-6">
           {posts.map((post: IPost) => (
             <PostCard key={post.id} post={post} withoutAvatar />

@@ -104,7 +104,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="dc min-h-screen">
+    <div className="min-h-screen">
       {notification && (
         <Notification
           message={notification.message}

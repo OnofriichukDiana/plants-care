@@ -5,7 +5,7 @@ import Search from "../components/Search";
 
 export default async function Main() {
   return (
-    <div className="dc min-h-screen ">
+    <div className="min-h-screen">
       <div className="main-card">
         <Search />
         <section className="w-4/6 mx-auto">
