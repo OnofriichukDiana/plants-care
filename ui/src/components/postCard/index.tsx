@@ -21,8 +21,7 @@ interface IProps {
 }
 
 function PostCard({ post, withoutAvatar }: IProps) {
-  const isOverflowing =
-    !!post?.postFiles?.length && post?.message?.length > 120;
+  const isOverflowing = !!post?.postFiles?.length && post?.message?.length > 50;
 
   return (
     <li className="flex mb-2">
@@ -38,9 +37,9 @@ function PostCard({ post, withoutAvatar }: IProps) {
                 ?.map((tag) => tag.slice(1))
                 .join()}`}
             >
-              <p className="subtitle1 text-slate-600">
+              <p className="subtitle1 text-slate-600 max-h-80 overflow-hidden">
                 {isOverflowing
-                  ? `${post.message.slice(0, 120)}...`
+                  ? `${post.message.slice(0, 50)}...`
                   : post.message}
               </p>
             </Link>
