@@ -112,7 +112,14 @@ export class PostsService {
         });
 
         if (!post) throw new NotFoundException();
-
+        console.log(
+            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+            post.userId,
+            userId,
+            typeof post.userId,
+            typeof userId,
+            post.userId !== userId,
+        );
         if (post.userId !== userId)
             throw new ForbiddenException('You have no access to this resource');
 
