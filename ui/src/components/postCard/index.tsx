@@ -37,7 +37,7 @@ function PostCard({ post, withoutAvatar }: IProps) {
                 ?.map((tag) => tag.slice(1))
                 .join()}`}
             >
-              <p className="subtitle1 text-slate-600 max-h-80 overflow-hidden">
+              <p className="subtitle1 text-zinc-600 max-h-80 overflow-hidden">
                 {isOverflowing
                   ? `${post.message.slice(0, 50)}...`
                   : post.message}
