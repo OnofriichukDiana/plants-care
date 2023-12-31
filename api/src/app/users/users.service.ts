@@ -125,7 +125,7 @@ export class UsersService {
         let user = await this.usersRepository.findOneBy({
             id: userId,
         });
-        if (!!user?.avatarBackground) {
+        if (!!user?.avatarUrl) {
             await this.mediaService.findAndRemove(user?.avatarUrl);
         }
         const { url } = await this.mediaService.upload(file, MediaType.AVATARS);

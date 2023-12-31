@@ -73,8 +73,10 @@ export class MediaService {
 
     async findAndRemove(path: string): Promise<void> {
         const Bucket = this.configService.get<string>('B2_BUCKET_NAME');
-        const media = await this.mediaRepository.findOneBy({
-            path,
+        const media = await this.mediaRepository.findOne({
+            where: {
+                path,
+            },
         });
         if (media) {
             try {
