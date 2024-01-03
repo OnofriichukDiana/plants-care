@@ -23,9 +23,12 @@ const UploadFiles = ({
   };
 
   return (
-    <div className={`cursor-pointer ${styles || ""}`} onClick={handleClick}>
+    <div
+      className={`cursor-pointer ${styles || ""} w-min h-min`}
+      onClick={handleClick}
+    >
       <input
-        className="opacity-0 h-0 w-0"
+        className="opacity-0 h-0 w-0 p-0 absolute"
         type="file"
         ref={fileInputRef}
         onChange={(e) => {

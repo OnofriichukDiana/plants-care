@@ -3,6 +3,7 @@ import Avatar from "@/components/Avatar";
 import { getIdFromSlug, getNameFromSlug } from "@/helpers/getInfoFromSlug";
 import Posts from "./Posts";
 import Actions from "./Actions";
+import { notFound } from "next/navigation";
 
 interface IProps {
   params: { slug: string };
@@ -28,7 +29,15 @@ export function generateMetadata({ params: { slug } }: IProps) {
 
 const Page = async ({ params: { slug } }: IProps) => {
   const id = getIdFromSlug(slug);
+
+  if (!id) {
+    notFound();
+  }
+
   const user = await usersApi.getOne(id);
+  if (user?.error) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen">

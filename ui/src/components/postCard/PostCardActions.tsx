@@ -30,8 +30,13 @@ function PostCardActions({ post }: IProps) {
   };
 
   useEffect(() => {
+    if (!!post?.countLikes) {
+      setCountLikes(post?.countLikes);
+    }
+  }, [post?.countLikes]);
+
+  useEffect(() => {
     isPostLiked();
-    setCountLikes(post?.countLikes);
   }, [post, me]);
 
   const onLike = async () => {

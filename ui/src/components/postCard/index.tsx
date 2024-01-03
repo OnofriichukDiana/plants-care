@@ -38,7 +38,7 @@ function PostCard({ post, withoutAvatar }: IProps) {
                 .join()}`}
             >
               <div
-                className="subtitle1 text-zinc-600 max-h-80 overflow-hidden"
+                className="subtitle1 max-h-80 overflow-hidden"
                 dangerouslySetInnerHTML={{
                   __html:
                     (isOverflowing

@@ -104,7 +104,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div>
       {notification && (
         <Notification
           message={notification.message}
@@ -114,15 +114,15 @@ const Settings = () => {
       <div className="main-card flex flex-col items-center">
         <form
           onSubmit={onChangeAvatar}
-          className="mb-4 md:w-1/2 flex flex-col items-end"
+          className="w-full mb-4 md:w-1/2 flex flex-col items-end"
         >
           <p className="h4 w-full">Avatar</p>
-
-          <UploadFiles
-            onChange={(newAvatar) => setAvatar(newAvatar)}
-            icon={<Avatar />}
-            styles=" pt-4 w-full mb-4 border-t border-gray-300 flex justify-center"
-          />
+          <div className="w-full pt-4 border-t border-gray-300 flex justify-center mb-3">
+            <UploadFiles
+              onChange={(newAvatar) => setAvatar(newAvatar)}
+              icon={<Avatar />}
+            />
+          </div>
 
           <LoadingButton
             button={
@@ -139,7 +139,7 @@ const Settings = () => {
 
         <form
           onSubmit={onChangeName}
-          className="mb-4 md:w-1/2 flex flex-col items-end"
+          className="w-full mb-4 md:w-1/2 flex flex-col items-end"
         >
           <p className="h4 w-full text-left">Name</p>
           <div className="w-full pt-4 border-t border-gray-300">
@@ -160,7 +160,7 @@ const Settings = () => {
 
         <form
           onSubmit={onChangePassword}
-          className="mb-4 md:w-1/2 flex flex-col items-end"
+          className="w-full mb-4 md:w-1/2 flex flex-col items-end"
         >
           <p className="h4 w-full text-left">Password</p>
           <div className="w-full pt-4 border-t border-gray-300">

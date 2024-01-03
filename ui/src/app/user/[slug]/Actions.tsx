@@ -153,35 +153,37 @@ const Actions = ({ user }: IProps) => {
           type={notification?.type}
         />
       )}
-      <div className="flex items-center wrap">
-        <div className="mr-2 md:mr-10">
-          <p className="h1 text-center">{countSubscribers}</p>
-          <button
-            disabled={countSubscribers === 0}
-            type="button"
-            onClick={() => {
-              setIsModalOpen(true);
-              setFilters({ subscriptionId: user?.id });
-            }}
-            className="icon-button"
-          >
-            Subscribers
-          </button>
-        </div>
+      <div className="ml-2 flex items-center justify-center flex-wrap gap-2">
+        <div className="flex items-center">
+          <div className="mr-2 md:mr-10">
+            <p className="h1 text-center">{countSubscribers}</p>
+            <button
+              disabled={countSubscribers === 0}
+              type="button"
+              onClick={() => {
+                setIsModalOpen(true);
+                setFilters({ subscriptionId: user?.id });
+              }}
+              className="icon-button"
+            >
+              Subscribers
+            </button>
+          </div>
 
-        <div className="mr-5">
-          <p className="h1 text-center">{user?.countSubscriptions}</p>
-          <button
-            disabled={user?.countSubscriptions === 0}
-            type="button"
-            onClick={() => {
-              setIsModalOpen(true);
-              setFilters({ subscriberId: user?.id });
-            }}
-            className="icon-button"
-          >
-            Subscriptions
-          </button>
+          <div className="mr-5">
+            <p className="h1 text-center">{user?.countSubscriptions}</p>
+            <button
+              disabled={user?.countSubscriptions === 0}
+              type="button"
+              onClick={() => {
+                setIsModalOpen(true);
+                setFilters({ subscriberId: user?.id });
+              }}
+              className="icon-button"
+            >
+              Subscriptions
+            </button>
+          </div>
         </div>
 
         {isAuth && (

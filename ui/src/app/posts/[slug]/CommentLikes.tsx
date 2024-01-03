@@ -30,11 +30,17 @@ const CommentLikes = ({ comment }: IProps) => {
   const scrollChecker = useRef<HTMLUListElement | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState<ILike[]>([]);
-  const [countLikes, setCountLikes] = useState(comment?.countLikes);
+  const [countLikes, setCountLikes] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [page, setPage] = useState<any>(1);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!!comment?.countLikes) {
+      setCountLikes(comment?.countLikes);
+    }
+  }, [comment?.countLikes]);
 
   const loadLikes = async (page = 1) => {
     setIsLoading(true);

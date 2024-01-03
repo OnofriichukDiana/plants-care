@@ -1,10 +1,10 @@
 import Image from "next/image";
 
-export default async function NotFoundPage() {
+export default async function NotFound() {
   return (
-    <div className="dc min-h-screen ">
-      <div className="main-card flex items-center justify-center">
-        <div className=" w-1/2">
+    <div className="dc">
+      <div className="main-card flex flex-col items-center justify-center">
+        <div className="w-3/5">
           <Image
             src={`/images/country.svg`}
             alt="icon"
@@ -13,6 +13,7 @@ export default async function NotFoundPage() {
             layout="responsive"
           />
         </div>
+        <p className="h1">Sorry, this page not found</p>
       </div>
     </div>
   );

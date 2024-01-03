@@ -9,6 +9,7 @@ import formatDate from "@/helpers/formatDate";
 import Link from "next/link";
 import FilesList from "./FilesList";
 import { IUser } from "@/app/user/[slug]/page";
+import { notFound } from "next/navigation";
 
 interface IProps {
   params: { slug: string };
@@ -58,7 +59,14 @@ export function generateMetadata({ params: { slug } }: IProps) {
 
 const Page = async ({ params: { slug } }: IProps) => {
   const id = getIdFromSlug(slug);
+  if (!id) {
+    notFound();
+  }
   const post = await postsApi.getOne(id);
+  if (post?.error) {
+    notFound();
+  }
+
   const postComments = await postCommentsApi.getList({
     filters: { postId: post.id },
   });

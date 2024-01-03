@@ -53,7 +53,9 @@ const Posts = ({ userId }: IProps) => {
       limit: 10,
       filters: { userId },
     });
-    setPosts([...posts, ...res?.items]);
+    setPosts(
+      res?.currentPage === 1 ? [...res?.items] : [...posts, ...res?.items]
+    );
     setPage(res?.currentPage === res?.totalPages ? null : page);
     setIsFetching(false);
     setIsLoading(false);
@@ -66,7 +68,7 @@ const Posts = ({ userId }: IProps) => {
         {!posts?.length && !isLoading && (
           <p className="text-center">You have no posts yet</p>
         )}
-        <ul ref={scrollChecker} className="flex flex-wrap gap-6">
+        <ul ref={scrollChecker} className="flex flex-wrap gap-6 justify-center">
           {posts.map((post: IPost) => (
             <PostCard key={post.id} post={post} withoutAvatar />
           ))}

@@ -37,13 +37,13 @@ export class PostsService {
             .leftJoinAndSelect('postFiles.media', 'media');
 
         if (!!nameOrTags) {
-            qb.where(
+            qb.andWhere(
                 'EXISTS (SELECT 1 FROM unnest(post.tags) AS item WHERE item ILIKE :nameOrTags)',
                 { nameOrTags: `%${nameOrTags}%` },
             );
         }
         if (!!userId) {
-            qb.where('user.id = :userId', { userId });
+            qb.andWhere('user.id = :userId', { userId });
         }
 
         if (!!subscriberId) {
@@ -51,6 +51,7 @@ export class PostsService {
             qb.where('subscription.subscriberId = :subscriberId', {
                 subscriberId,
             });
+            qb.orWhere('post.userId = :subscriberId', { subscriberId });
         }
 
         let currentPage = +page;

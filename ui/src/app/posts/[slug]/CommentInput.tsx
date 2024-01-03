@@ -1,5 +1,5 @@
 "use client";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useEffect, useRef, useState } from "react";
 import Notification from "@/components/Notification";
 import useNotification from "@/hooks/useNotification";
 import Avatar from "@/components/Avatar";
@@ -16,6 +16,9 @@ import { VscSend } from "react-icons/vsc";
 import { IComment } from "./page";
 import { FaRegFileAlt } from "react-icons/fa";
 import LoadingButton from "@/components/LoadingButton";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { LuSmilePlus } from "react-icons/lu";
+import EmojiPicker from "emoji-picker-react";
 
 interface IProps {
   postId?: number;
@@ -26,6 +29,7 @@ interface IProps {
 function CommentInput({ postId, parent, afterSave }: IProps) {
   const { me } = useAuthStore();
   const router = useRouter();
+
   const { notification, showNotification } = useNotification();
 
   const defaultComment = { postId, countLikes: 0 };
@@ -37,6 +41,10 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
   const [comment, setComment] = useState<IComment>(defaultComment);
   const [commentFiles, setCommentFiles] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const textareaRef: any = useRef();
+  const ref = useOutsideClick<HTMLDivElement>(() => setShowEmojiPicker(false));
 
   const saveFiles = async (commentId: number) => {
     await Promise.all(
@@ -74,11 +82,25 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
     }
   };
 
+  const handleEmojiClick = (emojiData: any) => {
+    const cursorPosition =
+      textareaRef.current?.getEditor()?.getSelection()?.index || 0;
+
+    const updatedMessage =
+      comment?.message?.replace(/\n$/i, `${emojiData.emoji}\n`) ||
+      `${emojiData.emoji}\n`;
+
+    setComment((prevComment) => ({ ...prevComment, message: updatedMessage }));
+    setShowEmojiPicker(false);
+    textareaRef.current
+      ?.getEditor()
+      ?.setSelection(cursorPosition + emojiData.emoji.length + 1);
+  };
+
   useEffect(() => {
-    if (!!me) {
+    if (me?.id) {
       setIsMeLoading(false);
     }
-    console.log(me);
   }, [me]);
 
   return (
@@ -87,17 +109,17 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
       <form onSubmit={onSubmit}>
         <div className="mb-4 flex">
           {!isMeLoading && <Avatar user={me} />}
-          <div style={{ width: "90%" }} className="ml-4">
+          <div className="ml-4 w-full">
             <div className="relative">
               <textarea
-                className="w-full"
+                className="w-full subtitle1"
                 placeholder={`${
                   !!parent?.id ? `Reply ${parent?.auth?.name}` : "Add comment"
                 }`}
                 onChange={(e) => {
                   setComment({ ...comment, message: e.target.value });
                 }}
-                rows={2}
+                rows={3}
                 cols={12}
                 value={comment?.message || ""}
               />
@@ -109,6 +131,37 @@ function CommentInput({ postId, parent, afterSave }: IProps) {
                 styles="absolute bottom-5 right-20"
                 accept="*/*"
               />
+
+              <div>
+                <button
+                  type="button"
+                  className="icon-button absolute bottom-3 left-3"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                >
+                  <LuSmilePlus className="icon" />
+                </button>
+
+                {showEmojiPicker && (
+                  <div ref={ref}>
+                    <EmojiPicker
+                      lazyLoadEmojis
+                      searchDisabled
+                      width={280}
+                      height={280}
+                      previewConfig={{ showPreview: false }}
+                      onEmojiClick={handleEmojiClick}
+                      style={{
+                        position: "absolute",
+                        top: "70px",
+                        left: "0px",
+                        zIndex: 40,
+                        // @ts-ignore
+                        "--epr-emoji-size": "20px",
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
 
               {commentFiles?.length > 0 && (
                 <div className="absolute right-20 flex justify-end">

@@ -1,5 +1,5 @@
 "use client";
-import { FormEventHandler, useEffect, useState } from "react";
+import React, { FormEventHandler, useEffect, useRef, useState } from "react";
 import Notification from "@/components/Notification";
 import useNotification from "@/hooks/useNotification";
 import Avatar from "./Avatar";
@@ -16,10 +16,15 @@ import createPostBodySchema from "@/helpers/validationSchemas/createPostBodySche
 import { postFilesApi, postsApi } from "@/api";
 import { useRouter } from "next/navigation";
 import LoadingButton from "./LoadingButton";
-
+import { LuSmilePlus } from "react-icons/lu";
 import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css";
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import EmojiPicker from "emoji-picker-react";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
+
+const ReactQuill = dynamic(() => import("../components/Quill"), {
+  ssr: false,
+  loading: () => <div className="w-full h-28" />,
+});
 
 type DataType = {
   message?: string;
@@ -44,15 +49,11 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<ErrorType>({});
   const [isShowAvatar, setIsShowAvatar] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { me, isLoading: isMeLoading } = useAuthStore();
 
-  useEffect(() => {
-    const postData = sessionStorage.getItem("post");
-    if (!!postData) {
-      setPost(JSON.parse(postData));
-    }
-    sessionStorage.clear();
-  }, []);
+  const quillRef: any = useRef();
+  const ref = useOutsideClick<HTMLDivElement>(() => setShowEmojiPicker(false));
 
   useEffect(() => {
     if (withoutAvatar || isMeLoading) {
@@ -95,7 +96,6 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
     e.preventDefault();
     if (!me) {
       router.push("/signin");
-      sessionStorage.setItem("post", JSON.stringify(post));
     } else {
       const isValidationError = await validateBeforeWrite();
       if (!isValidationError && (!!post.message || !!postFiles.length)) {
@@ -108,6 +108,7 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
           if (!!postFiles.length) {
             await saveFiles(res?.id);
           }
+
           setPostFiles([]);
           setPost(defaultPostData);
 
@@ -116,6 +117,24 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
         setIsLoading(false);
       }
     }
+  };
+
+  const handleEmojiClick = (emojiData: any) => {
+    const quillEditor = quillRef?.current?.getEditor();
+    if (!quillEditor) return;
+
+    const cursorPosition = quillEditor.getSelection()?.index || 0;
+    const defaultContent = "<p></p>";
+    const currentMessage = post?.message || defaultContent;
+    const updatedMessage = currentMessage.replace(
+      /<\/p>$/i,
+      `<span>${emojiData.emoji}</span></p>`
+    );
+
+    quillEditor?.clipboard?.dangerouslyPasteHTML(updatedMessage);
+    quillEditor.setSelection(cursorPosition + emojiData.emoji.length);
+
+    setShowEmojiPicker(false);
   };
 
   return (
@@ -129,9 +148,14 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
           <div className="ml-4 w-full">
             <div className="relative">
               <ReactQuill
-                className="w-full text-quill body1"
+                quillRef={quillRef}
+                className="w-full text-quill h-28 body1"
                 value={post?.message || ""}
-                onChange={(e) => setPost({ ...post, message: e })}
+                onChange={(e) => {
+                  if (e !== "<p><br></p>") {
+                    setPost({ ...post, message: e });
+                  }
+                }}
                 theme="snow"
                 modules={{
                   toolbar: false,
@@ -143,11 +167,41 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
                   setPostFiles([...postFiles, ...newFiles])
                 }
                 icon={<IoImagesOutline className="icon-large" />}
-                styles="absolute bottom-3 right-5 md:bottom-5 md:right-3"
+                styles="absolute bottom-1 right-1 md:bottom-3 md:right-3"
               />
+              <div>
+                <button
+                  type="button"
+                  className="icon-button absolute bottom-3 left-3"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                >
+                  <LuSmilePlus className="icon" />
+                </button>
+
+                {showEmojiPicker && (
+                  <div ref={ref}>
+                    <EmojiPicker
+                      lazyLoadEmojis
+                      searchDisabled
+                      width={280}
+                      height={280}
+                      previewConfig={{ showPreview: false }}
+                      onEmojiClick={handleEmojiClick}
+                      style={{
+                        position: "absolute",
+                        top: "110px",
+                        left: "0px",
+                        zIndex: 40,
+                        // @ts-ignore
+                        "--epr-emoji-size": "20px",
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
 
               {postFiles?.length > 0 && (
-                <div className="absolute right-20 flex justify-end">
+                <div className="absolute right-20 flex flex-col md:flex-row justify-end">
                   {postFiles?.map((file: File, index: number) => {
                     const {
                       name,
@@ -194,7 +248,7 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
                     placeholder="tags/what do this post about"
                     value={post?.tags || ""}
                     type="text"
-                    className="mr-4"
+                    className="mr-4 text-xs"
                   />
                   {errors.tags && (
                     <div className="absolute mt-0.5 text-xs text-red-600">
@@ -205,9 +259,9 @@ function PostInput({ afterSave, withoutAvatar }: IProps) {
                 <Checkbox
                   label="Hide tags"
                   checked={post.isShowTags}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setPost({ ...post, isShowTags: e.currentTarget.checked })
-                  }
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setPost({ ...post, isShowTags: e.currentTarget.checked });
+                  }}
                 />
               </div>
               <LoadingButton
