@@ -21,6 +21,9 @@ const config = {
     synchronize: false,
     migrationsRun: true,
     logging: true,
+    ssl: {
+        require: true,
+    },
 };
 
 export const dbConf = registerAs('typeorm', () => config);
