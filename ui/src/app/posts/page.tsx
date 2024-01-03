@@ -99,10 +99,7 @@ const Page = () => {
           {!posts?.length && !isLoading && !isMeLoading && (
             <p className="text-center">Nothing not found</p>
           )}
-          <ul
-            ref={scrollChecker}
-            className="flex flex-wrap gap-6 justify-center"
-          >
+          <ul ref={scrollChecker} className="flex flex-wrap gap-6">
             {posts.map((post: IPost) => (
               <PostCard key={post.id} post={post} />
             ))}

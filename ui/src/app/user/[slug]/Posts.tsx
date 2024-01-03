@@ -68,7 +68,7 @@ const Posts = ({ userId }: IProps) => {
         {!posts?.length && !isLoading && (
           <p className="text-center">You have no posts yet</p>
         )}
-        <ul ref={scrollChecker} className="flex flex-wrap gap-6 justify-center">
+        <ul ref={scrollChecker} className="flex flex-wrap gap-6">
           {posts.map((post: IPost) => (
             <PostCard key={post.id} post={post} withoutAvatar />
           ))}
