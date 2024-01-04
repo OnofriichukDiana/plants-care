@@ -21,9 +21,12 @@ const config = {
     synchronize: false,
     migrationsRun: true,
     logging: true,
-    ssl: {
-        require: true,
-    },
+    ssl:
+        process.env.ENVIRONMENT === 'prod'
+            ? {
+                  require: true,
+              }
+            : false,
 };
 
 export const dbConf = registerAs('typeorm', () => config);
