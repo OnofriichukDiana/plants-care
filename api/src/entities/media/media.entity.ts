@@ -5,10 +5,10 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToMany,
-    JoinColumn,
 } from 'typeorm';
 import { PostFile } from './post-file.entity';
 import { CommentFile } from './comment-file.entity';
+import { ChatMessageFile } from './chat-message-file.entity';
 
 @Entity()
 export class Media {
@@ -32,6 +32,9 @@ export class Media {
 
     @OneToMany(() => CommentFile, ({ media }) => media)
     commentFiles: CommentFile[];
+
+    @OneToMany(() => ChatMessageFile, ({ media }) => media)
+    chatMessageFiles: ChatMessageFile[];
 
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;

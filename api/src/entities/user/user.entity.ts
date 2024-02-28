@@ -10,6 +10,7 @@ import { Post } from '../post/post.entity';
 import { PostLike } from '../like/post-like.entity';
 import { PostComment } from '../comment/post-comment.entity';
 import { UserToUser } from './user-to-user.entity';
+import { ChatMessage } from '../chat/chat-message.entity';
 
 @Entity()
 export class User {
@@ -48,6 +49,12 @@ export class User {
 
     @OneToMany(() => Post, ({ user }) => user)
     posts: Post[];
+
+    @OneToMany(() => ChatMessage, ({ fromUser }) => fromUser)
+    chatMessagesFrom: ChatMessage[];
+
+    @OneToMany(() => ChatMessage, ({ toUser }) => toUser)
+    chatMessagesTo: ChatMessage[];
 
     @OneToMany(() => PostLike, ({ auth }) => auth)
     postLikes: PostLike[];

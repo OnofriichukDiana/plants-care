@@ -23,7 +23,6 @@ export const handleApiResponse = async (response: any) => {
       expires: 2,
     });
   }
-  console.log(response);
   useAuthStore.setState({
     me: response.me,
   });
