@@ -18,17 +18,17 @@ export const api = async (url: string, props: any, func: any) => {
 
   try {
     const response = await fetch(host + url, props);
+    const data = await response.json();
 
     if (!response.ok) {
       throw {
         error: {
-          status: response.status,
-          message: response.statusText,
+          status: data.statusCode || response.status,
+          message: data.message || response.statusText,
         },
       };
     }
 
-    const data = await response.json();
     return func(data);
   } catch (err: any) {
     console.error(err);

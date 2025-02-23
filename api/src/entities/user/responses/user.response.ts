@@ -6,6 +6,7 @@ import { PostLike } from 'src/entities/like/post-like.entity';
 import { PostComment } from 'src/entities/comment/post-comment.entity';
 import { Post } from 'src/entities/post/post.entity';
 import { UserToUser } from '../user-to-user.entity';
+import { ChatMessage } from 'src/entities/chat/chat-message.entity';
 
 export class UserResponse implements User {
     @ApiProperty(getApiPropertyMetadata(User, 'id'))
@@ -51,6 +52,14 @@ export class UserResponse implements User {
     @ApiProperty(getApiPropertyMetadata(User, 'subscriptions'))
     @Expose()
     subscriptions: UserToUser[];
+
+    @ApiProperty(getApiPropertyMetadata(User, 'chatMessagesFrom'))
+    @Expose()
+    chatMessagesFrom: ChatMessage[];
+
+    @ApiProperty(getApiPropertyMetadata(User, 'chatMessagesTo'))
+    @Expose()
+    chatMessagesTo: ChatMessage[];
 
     @ApiProperty(getApiPropertyMetadata(User, 'posts'))
     @Expose()

@@ -4,6 +4,7 @@ import { Expose } from 'class-transformer';
 import { Media } from '../media.entity';
 import { PostFile } from '../post-file.entity';
 import { CommentFile } from '../comment-file.entity';
+import { ChatMessageFile } from '../chat-message-file.entity';
 
 export class MediaResponse implements Media {
     @ApiProperty(getApiPropertyMetadata(Media, 'id'))
@@ -33,6 +34,10 @@ export class MediaResponse implements Media {
     @ApiProperty(getApiPropertyMetadata(Media, 'commentFiles'))
     @Expose()
     commentFiles: CommentFile[];
+
+    @ApiProperty(getApiPropertyMetadata(Media, 'chatMessageFiles'))
+    @Expose()
+    chatMessageFiles: ChatMessageFile[];
 
     @ApiProperty(getApiPropertyMetadata(Media, 'createdAt'))
     @Expose()

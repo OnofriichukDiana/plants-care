@@ -12,6 +12,8 @@ import Spiner from "@/components/Spinner";
 import Avatar from "@/components/Avatar";
 import formatDate from "@/helpers/formatDate";
 import Link from "next/link";
+import IconButton from "@/components/IconButton";
+import { BsChatText } from "react-icons/bs";
 
 interface IProps {
   user: IUser;
@@ -192,9 +194,16 @@ const Actions = ({ user }: IProps) => {
           </Link>
         )}
         {!isAuth && (
-          <button className=" h-fit" type="button" onClick={onSubscribe}>
-            {isSubscribed ? "Unsubscribe" : "Subscribe"}
-          </button>
+          <div className="mr-5 flex items-center">
+            <button className="mr-3 h-fit" type="button" onClick={onSubscribe}>
+              {isSubscribed ? "Unsubscribe" : "Subscribe"}
+            </button>
+            <IconButton
+              onClick={() => router.push(`/chats/${user.id}`)}
+              icon={BsChatText}
+              signature="Chats"
+            />
+          </div>
         )}
       </div>
     </>

@@ -11,7 +11,7 @@ const Logo = () => {
         className="subtitle2 absolute top-0 rigth-40"
         style={{ color: "#022510", left: -19 }}
       >
-        Grren
+        Green
       </p>
       <LogoSvg />
       <p

@@ -12,6 +12,7 @@ import { PostCommentsModule } from './post-comments/post-comments.module';
 import { CommentFilesModule } from './comment-files/comment-files.module';
 import { CommentLikesModule } from './comment-likes/comment-likes.module';
 import { UserToUsersModule } from './user-to-users/user-to-users.module';
+import { ChatMessagesModule } from './chat-messages/chat-messages.module';
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { UserToUsersModule } from './user-to-users/user-to-users.module';
         CommentFilesModule,
         CommentLikesModule,
         UserToUsersModule,
+        ChatMessagesModule,
         ConfigModule.forRoot({
             isGlobal: true,
             load: [dbConf],

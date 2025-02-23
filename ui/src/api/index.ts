@@ -50,3 +50,24 @@ export const userToUserApi = crud("user-to-users", {
       (response: boolean) => response
     ),
 });
+
+export const chatsApi = crud("chat-messages", {
+  countUnreadedMessages: () =>
+    api(
+      `/chat-messages/count-unreaded-messages`,
+      {
+        method: "GET",
+      },
+      (response: number) => response
+    ),
+
+  setViewed: (entity: any) =>
+    api(
+      `/chat-messages/set-viewed`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(entity),
+      },
+      (response: any) => response
+    ),
+});
